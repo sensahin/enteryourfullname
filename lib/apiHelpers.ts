@@ -1,4 +1,3 @@
-// lib/apiHelpers.ts
 import axios from 'axios';
 
 const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
@@ -6,14 +5,32 @@ const GOOGLE_CSE_ID = process.env.GOOGLE_CSE_ID;
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const ASSISTANT_ID = process.env.ASSISTANT_ID;
 
+interface GoogleSearchItem {
+    title?: string;
+    snippet?: string;
+    link?: string;
+}
+
+interface AssistantMessagePart {
+    type: string;
+    text?: {
+        value: string;
+    }
+}
+
+interface AssistantMessage {
+    role: string;
+    content?: AssistantMessagePart[];
+}
+
 export async function google_search(query: string, api_key=GOOGLE_API_KEY, cse_id=GOOGLE_CSE_ID, num=10) {
     const search_url = "https://www.googleapis.com/customsearch/v1";
     const params = { q: query, key: api_key, cx: cse_id, num: num };
     const response = await axios.get(search_url, { params });
     const data = response.data;
-    const items = data.items || [];
+    const items: GoogleSearchItem[] = data.items || [];
     let results_text = "";
-    items.forEach((item: any, i: number) => {
+    items.forEach((item: GoogleSearchItem, i: number) => {
         const title = item.title || '';
         const snippet = item.snippet || '';
         const link = item.link || '';
@@ -131,18 +148,18 @@ export async function get_last_assistant_message(thread_id: string, run_id: stri
         const step = steps[i];
         if (step.type === "message_creation") {
             const msg_id = step.step_details.message_creation.message_id;
-            const msg_data = await retrieve_message(thread_id, msg_id);
+            const msg_data = await retrieve_message(thread_id, msg_id) as {role: string; content?: AssistantMessagePart[]};
             if (msg_data.role === "assistant") {
                 let json_str = "";
-                (msg_data.content || []).forEach((part: any) => {
-                    if (part.type === "text") {
+                (msg_data.content || []).forEach((part: AssistantMessagePart) => {
+                    if (part.type === "text" && part.text?.value) {
                         json_str += part.text.value;
                     }
                 });
                 try {
                     const response_obj = JSON.parse(json_str);
                     return response_obj;
-                } catch(e) {
+                } catch {
                     return null;
                 }
             }

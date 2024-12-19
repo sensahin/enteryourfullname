@@ -5,17 +5,13 @@ import { join } from 'path';
 
 export async function POST(request: Request) {
     await request.json(); 
-    // We no longer need the confirm value since we do the same action regardless of yes/no.
+    // confirm value no longer needed.
 
     const cookieStore = await cookies();
     const language = cookieStore.get('language')?.value || 'en';
 
-    // Read translations from filesystem
-    const filePath = join(process.cwd(), 'public', 'translations.json');
-    const data = readFileSync(filePath, 'utf-8');
-    const translations = JSON.parse(data);
-
-    // Return "done" state without further OpenAI calls
+    // No need to read translations because we don't use them here.
+    // Just return done state directly.
     return NextResponse.json({
         type: "done",
         question: null,

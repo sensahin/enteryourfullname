@@ -9,20 +9,31 @@ type ResponseType = {
   language: string;
 };
 
+type TranslationData = {
+  yes: string;
+  no: string;
+  done_prompt?: string;
+  goodbye?: string;
+  thanks?: string;
+};
+
+type Translations = {
+  [languageCode: string]: TranslationData;
+};
+
 export default function Page() {
-  const [translations, setTranslations] = useState<any>({});
+  const [translations, setTranslations] = useState<Translations>({});
   const [currentLanguage, setCurrentLanguage] = useState('en');
   const [viewState, setViewState] = useState<'start'|'question'|'identify'|'done'|'exit'>('start');
   const [questionText, setQuestionText] = useState('');
   const [identifyText, setIdentifyText] = useState('');
   const [loading, setLoading] = useState(false);
-
   const [fullname, setFullname] = useState('');
 
   useEffect(() => {
     fetch('/translations.json')
       .then(res => res.json())
-      .then(data => setTranslations(data));
+      .then((data: Translations) => setTranslations(data));
   }, []);
 
   async function handleStart(e: React.FormEvent) {
@@ -91,7 +102,6 @@ export default function Page() {
   }
 
   function handleYesDone() {
-    // reload page to start from scratch
     window.location.href = '/';
   }
 
