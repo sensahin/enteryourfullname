@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import ReactMarkdown from 'react-markdown';
 
 type ResponseType = {
   type: 'question' | 'identify' | 'done' | 'exit';
@@ -254,7 +255,8 @@ export default function Page() {
 
       {!loading && !errorMessage && viewState === 'identify' && (
         <div>
-          <p className="question-text">{identifyText}</p>
+          {/* Here we use ReactMarkdown to render the identifyText markdown properly */}
+          <ReactMarkdown className="question-text">{identifyText}</ReactMarkdown>
           <div className="flex-row">
             <button onClick={handleConfirmYes}>{t.yes}</button>
             <button onClick={handleConfirmNo}>{t.no}</button>
