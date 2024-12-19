@@ -14,7 +14,6 @@ export async function POST(request: Request) {
     const filePath = join(process.cwd(), 'public', 'translations.json');
     const data = readFileSync(filePath, 'utf-8');
     const translations = JSON.parse(data);
-    // Removed yesTranslation since it's not used
 
     // Return "done" state without further OpenAI calls
     return NextResponse.json({
