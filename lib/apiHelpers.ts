@@ -18,11 +18,6 @@ interface AssistantMessagePart {
     }
 }
 
-interface AssistantMessage {
-    role: string;
-    content?: AssistantMessagePart[];
-}
-
 export async function google_search(query: string, api_key=GOOGLE_API_KEY, cse_id=GOOGLE_CSE_ID, num=10) {
     const search_url = "https://www.googleapis.com/customsearch/v1";
     const params = { q: query, key: api_key, cx: cse_id, num: num };

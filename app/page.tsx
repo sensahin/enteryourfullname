@@ -7,6 +7,7 @@ type ResponseType = {
   question: string|null;
   response: string|null;
   language: string;
+  error?: string;
 };
 
 type TranslationData = {
@@ -29,76 +30,159 @@ export default function Page() {
   const [identifyText, setIdentifyText] = useState('');
   const [loading, setLoading] = useState(false);
   const [fullname, setFullname] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    fetch('/translations.json')
-      .then(res => res.json())
-      .then((data: Translations) => setTranslations(data));
+    (async () => {
+      try {
+        const res = await fetch('/translations.json');
+        if (!res.ok) {
+          console.error('Failed to load translations:', await res.text());
+          setErrorMessage('Failed to load translations.');
+          return;
+        }
+        const data: Translations = await res.json();
+        setTranslations(data);
+      } catch (error) {
+        console.error('Error loading translations:', error);
+        setErrorMessage('Error loading translations.');
+      }
+    })();
   }, []);
 
   async function handleStart(e: React.FormEvent) {
     e.preventDefault();
+    setErrorMessage('');
     setLoading(true);
-    const res = await fetch('/api/start', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ fullname })
-    });
-    const json: ResponseType = await res.json();
-    setLoading(false);
-    handleResponse(json);
+    try {
+      const res = await fetch('/api/start', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ fullname })
+      });
+      if (!res.ok) {
+        const text = await res.text();
+        console.error('Error starting:', text);
+        setErrorMessage('Error starting the process.');
+        setLoading(false);
+        return;
+      }
+      const json: ResponseType = await res.json();
+      setLoading(false);
+      handleResponse(json);
+    } catch (error) {
+      console.error('Error in handleStart:', error);
+      setLoading(false);
+      setErrorMessage('An error occurred while starting.');
+    }
   }
 
   async function handleYes() {
-    await handleAction(translations[currentLanguage].yes.toLowerCase());
+    await handleAction(translations[currentLanguage]?.yes?.toLowerCase() || 'yes');
   }
 
   async function handleNo() {
-    await handleAction(translations[currentLanguage].no.toLowerCase());
+    await handleAction(translations[currentLanguage]?.no?.toLowerCase() || 'no');
   }
 
   async function handleAction(action: string) {
+    setErrorMessage('');
     setLoading(true);
-    const res = await fetch('/api/answer', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({action})
-    });
-    const json: ResponseType = await res.json();
-    setLoading(false);
-    handleResponse(json);
+    try {
+      const res = await fetch('/api/answer', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({action})
+      });
+      if (!res.ok) {
+        const text = await res.text();
+        console.error('Error handling action:', text);
+        setErrorMessage('Error processing action.');
+        setLoading(false);
+        return;
+      }
+      const json: ResponseType = await res.json();
+      setLoading(false);
+      handleResponse(json);
+    } catch (error) {
+      console.error('Error in handleAction:', error);
+      setLoading(false);
+      setErrorMessage('An error occurred while processing action.');
+    }
   }
 
   async function handleConfirmYes() {
+    setErrorMessage('');
     setLoading(true);
-    const res = await fetch('/api/confirm', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ confirm: translations[currentLanguage].yes.toLowerCase() })
-    });
-    const json: ResponseType = await res.json();
-    setLoading(false);
-    handleResponse(json);
+    try {
+      const res = await fetch('/api/confirm', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ confirm: translations[currentLanguage].yes.toLowerCase() })
+      });
+      if (!res.ok) {
+        const text = await res.text();
+        console.error('Error confirming yes:', text);
+        setErrorMessage('Error confirming identification.');
+        setLoading(false);
+        return;
+      }
+      const json: ResponseType = await res.json();
+      setLoading(false);
+      handleResponse(json);
+    } catch (error) {
+      console.error('Error in handleConfirmYes:', error);
+      setLoading(false);
+      setErrorMessage('An error occurred during confirmation.');
+    }
   }
 
   async function handleConfirmNo() {
+    setErrorMessage('');
     setLoading(true);
-    const res = await fetch('/api/confirm', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ confirm: translations[currentLanguage].no.toLowerCase() })
-    });
-    const json: ResponseType = await res.json();
-    setLoading(false);
-    handleResponse(json);
+    try {
+      const res = await fetch('/api/confirm', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ confirm: translations[currentLanguage].no.toLowerCase() })
+      });
+      if (!res.ok) {
+        const text = await res.text();
+        console.error('Error confirming no:', text);
+        setErrorMessage('Error confirming denial.');
+        setLoading(false);
+        return;
+      }
+      const json: ResponseType = await res.json();
+      setLoading(false);
+      handleResponse(json);
+    } catch (error) {
+      console.error('Error in handleConfirmNo:', error);
+      setLoading(false);
+      setErrorMessage('An error occurred during confirmation.');
+    }
   }
 
   async function handleNoDone() {
+    setErrorMessage('');
     setLoading(true);
-    const res = await fetch('/api/exit');
-    const json: ResponseType = await res.json();
-    setLoading(false);
-    handleResponse(json);
+    try {
+      const res = await fetch('/api/exit');
+      if (!res.ok) {
+        const text = await res.text();
+        console.error('Error exiting:', text);
+        setErrorMessage('Error exiting.');
+        setLoading(false);
+        return;
+      }
+      const json: ResponseType = await res.json();
+      setLoading(false);
+      handleResponse(json);
+    } catch (error) {
+      console.error('Error in handleNoDone:', error);
+      setLoading(false);
+      setErrorMessage('An error occurred while exiting.');
+    }
   }
 
   function handleYesDone() {
@@ -106,6 +190,10 @@ export default function Page() {
   }
 
   function handleResponse(response: ResponseType) {
+    if (response.error) {
+      setErrorMessage(response.error);
+      return;
+    }
     const { type, question, response: identifyResponse, language } = response;
     setCurrentLanguage(language || 'en');
     if (!translations[language || 'en']) {
@@ -125,14 +213,18 @@ export default function Page() {
     }
   }
 
-  if (!translations || Object.keys(translations).length === 0) return <div className="spinner"></div>;
+  if (!translations || Object.keys(translations).length === 0) {
+    return <div>Loading translations...</div>;
+  }
 
   const t = translations[currentLanguage] || translations['en'];
 
   return (
     <main>
       {loading && <div className="spinner"></div>}
-      {!loading && viewState === 'start' && (
+      {errorMessage && <div className="error">{errorMessage}</div>}
+      
+      {!loading && !errorMessage && viewState === 'start' && (
         <div className="form__group field">
           <form onSubmit={handleStart}>
             <input 
@@ -150,7 +242,7 @@ export default function Page() {
         </div>
       )}
 
-      {!loading && viewState === 'question' && (
+      {!loading && !errorMessage && viewState === 'question' && (
         <div>
           <p className="question-text">{questionText}</p>
           <div className="flex-row">
@@ -160,7 +252,7 @@ export default function Page() {
         </div>
       )}
 
-      {!loading && viewState === 'identify' && (
+      {!loading && !errorMessage && viewState === 'identify' && (
         <div>
           <p className="question-text">{identifyText}</p>
           <div className="flex-row">
@@ -170,7 +262,7 @@ export default function Page() {
         </div>
       )}
 
-      {!loading && viewState === 'done' && (
+      {!loading && !errorMessage && viewState === 'done' && (
         <div>
           <h1>{t.done_prompt || 'One more?'}</h1>
           <div className="flex-row">
@@ -180,7 +272,7 @@ export default function Page() {
         </div>
       )}
 
-      {!loading && viewState === 'exit' && (
+      {!loading && !errorMessage && viewState === 'exit' && (
         <div>
           <h1>{t.goodbye || 'Goodbye!'}</h1>
           <p>{t.thanks || 'Thank you.'}</p>

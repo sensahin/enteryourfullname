@@ -16,6 +16,7 @@ type Translations = {
 };
 
 export async function GET() {
+  try {
     const cookieStore = await cookies();
     const language = cookieStore.get('language')?.value || 'en';
 
@@ -25,13 +26,17 @@ export async function GET() {
 
     const langTranslations = translations[language] || translations['en'];
     return NextResponse.json({
-        type: "exit",
-        question: null,
-        response: null,
-        language: language,
-        buttons: [
-            langTranslations.yes || "Yes",
-            langTranslations.no || "No"
-        ]
+      type: "exit",
+      question: null,
+      response: null,
+      language: language,
+      buttons: [
+        langTranslations.yes || "Yes",
+        langTranslations.no || "No"
+      ]
     });
+  } catch (error: any) {
+    console.error("Error in /api/exit:", error);
+    return NextResponse.json({ error: "Failed to exit." }, { status: 500 });
+  }
 }
