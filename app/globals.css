@@ -1,21 +1,223 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --primary: #11998e;
+  --secondary: #38ef7d;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: #000000;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  min-height: 50vh;
+  margin: 0;
+  padding: 0 1rem;
+  box-sizing: border-box;
+  text-align: center;
+  background: #000000;
+  position: relative;
+}
+
+/* Spinner styles */
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 5px solid #333333;
+  border-top: 5px solid #ffffff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 20px 0;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+h1 {
+  font-weight: 600;
+  font-size: 1.8em;
+  color: #ffffff;
+  margin-bottom: 1em;
+}
+
+p {
+  font-size: 1em;
+  line-height: 1.4;
+  margin-bottom: 2em;
+  color: #ffffff;
+}
+
+.question-text {
+  font-size: 1.4em;
+  font-weight: 500;
+  margin-bottom: 2em;
+}
+
+button {
+  font-size: 1em;
+  font-weight: 500;
+  padding: 0.8em 1.5em;
+  border: none;
+  border-radius: 9999px;
+  /* fully rounded */
+  color: #ffffff;
+  background: linear-gradient(to bottom, var(--primary), var(--secondary));
+  position: relative;
+  cursor: pointer;
+  transition:
+      box-shadow 0.3s ease,
+      background-color 0.3s ease,
+      transform 0.2s ease;
+
+  /* Layered shadows for depth */
+  box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.25),
+      0 4px 8px rgba(0, 0, 0, 0.15),
+      inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background:
+      repeating-linear-gradient(45deg,
+          rgba(255, 255, 255, 0.03),
+          rgba(255, 255, 255, 0.03) 4px,
+          rgba(0, 0, 0, 0.03) 4px,
+          rgba(0, 0, 0, 0.03) 8px);
+  mix-blend-mode: overlay;
+  opacity: 0.4;
+  filter: contrast(1.2) brightness(0.95);
+}
+
+button:active {
+  box-shadow:
+      inset 0 2px 4px rgba(0, 0, 0, 0.25),
+      0 1px 1px rgba(0, 0, 0, 0.1);
+  transform: scale(0.97);
+}
+
+button:hover {
+  background: linear-gradient(to bottom, var(--secondary), var(--primary));
+  box-shadow:
+      0 2px 6px rgba(0, 0, 0, 0.25),
+      0 8px 16px rgba(0, 0, 0, 0.1),
+      inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  width: auto;
+}
+
+.flex-row form {
+  display: inline-flex;
+  width: auto;
+  margin: 0;
+  padding: 0;
+}
+
+.form__group {
+  position: relative;
+  padding: 15px 0 0;
+  margin-top: 10px;
+  width: 50%;
+}
+
+.form__field {
+  font-family: inherit;
+  width: 100%;
+  border: 0;
+  border-bottom: 2px solid #ffffff;
+  outline: 0;
+  font-size: 1.3rem;
+  color: #ffffff;
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+
+  &::placeholder {
+      color: transparent;
+  }
+
+  &:placeholder-shown~.form__label {
+      font-size: 1.3rem;
+      cursor: text;
+      top: 20px;
+  }
+}
+
+.form__label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: #ffffff;
+}
+
+.form__field:focus {
+  ~.form__label {
+      position: absolute;
+      top: 0;
+      display: block;
+      transition: 0.2s;
+      font-size: 1rem;
+      color: var(--primary);
+      font-weight: 700;
+  }
+
+  padding-bottom: 6px;
+  font-weight: 700;
+  border-width: 3px;
+  border-image: linear-gradient(to right, var(--primary), var(--secondary));
+  border-image-slice: 1;
+}
+
+/* reset input */
+.form__field {
+
+  &:required,
+  &:invalid {
+      box-shadow: none;
+  }
+}
+
+@media (max-width: 600px) {
+  h1 {
+      font-size: 1.5em;
+  }
+
+  button {
+      width: 100%;
+      max-width: 300px;
+  }
+
+  input[type="text"] {
+      max-width: 100%;
+  }
 }

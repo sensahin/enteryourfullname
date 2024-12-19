@@ -1,0 +1,961 @@
+{
+    "en": {
+        "yes": "Yes",
+        "no": "No",
+        "done_prompt": "One more?",
+        "goodbye": "Goodbye!",
+        "thanks": "Thank you."
+    },
+    "tr": {
+        "yes": "Evet",
+        "no": "Hayır",
+        "done_prompt": "Bi daha?",
+        "goodbye": "Hoşçakal!",
+        "thanks": "Teşekkürler."
+    },
+    "es": {
+        "yes": "Sí",
+        "no": "No",
+        "done_prompt": "¿Otra más?",
+        "goodbye": "¡Adiós!",
+        "thanks": "Gracias."
+    },
+    "fr": {
+        "yes": "Oui",
+        "no": "Non",
+        "done_prompt": "Encore une?",
+        "goodbye": "Au revoir!",
+        "thanks": "Merci."
+    },
+    "de": {
+        "yes": "Ja",
+        "no": "Nein",
+        "done_prompt": "Noch eine?",
+        "goodbye": "Auf Wiedersehen!",
+        "thanks": "Danke."
+    },
+    "it": {
+        "yes": "Sì",
+        "no": "No",
+        "done_prompt": "Ancora una?",
+        "goodbye": "Arrivederci!",
+        "thanks": "Grazie."
+    },
+    "pt": {
+        "yes": "Sim",
+        "no": "Não",
+        "done_prompt": "Mais uma?",
+        "goodbye": "Adeus!",
+        "thanks": "Obrigado."
+    },
+    "ru": {
+        "yes": "Да",
+        "no": "Нет",
+        "done_prompt": "Еще раз?",
+        "goodbye": "До свидания!",
+        "thanks": "Спасибо."
+    },
+    "zh": {
+        "yes": "是",
+        "no": "不",
+        "done_prompt": "再来一个？",
+        "goodbye": "再见！",
+        "thanks": "谢谢。"
+    },
+    "ja": {
+        "yes": "はい",
+        "no": "いいえ",
+        "done_prompt": "もう一つ？",
+        "goodbye": "さようなら！",
+        "thanks": "ありがとうございます。"
+    },
+    "ko": {
+        "yes": "네",
+        "no": "아니요",
+        "done_prompt": "하나 더?",
+        "goodbye": "안녕히 가세요!",
+        "thanks": "감사합니다."
+    },
+    "ar": {
+        "yes": "نعم",
+        "no": "لا",
+        "done_prompt": "واحدة أخرى؟",
+        "goodbye": "مع السلامة!",
+        "thanks": "شكراً."
+    },
+    "hi": {
+        "yes": "हाँ",
+        "no": "नहीं",
+        "done_prompt": "एक और?",
+        "goodbye": "अलविदा!",
+        "thanks": "धन्यवाद।"
+    },
+    "bn": {
+        "yes": "হ্যাঁ",
+        "no": "না",
+        "done_prompt": "আর একটি?",
+        "goodbye": "বিদায়!",
+        "thanks": "ধন্যবাদ।"
+    },
+    "pa": {
+        "yes": "ਹਾਂ",
+        "no": "ਨਹੀਂ",
+        "done_prompt": "ਹੋਰ ਇੱਕ?",
+        "goodbye": "ਅਲਵਿਦਾ!",
+        "thanks": "ਧੰਨਵਾਦ।"
+    },
+    "gu": {
+        "yes": "હા",
+        "no": "ના",
+        "done_prompt": "બીજું એક?",
+        "goodbye": "આવજો!",
+        "thanks": "આભાર."
+    },
+    "ta": {
+        "yes": "ஆம்",
+        "no": "இல்லை",
+        "done_prompt": "இன்னொரு?",
+        "goodbye": "வணக்கம்!",
+        "thanks": "நன்றி."
+    },
+    "te": {
+        "yes": "అవును",
+        "no": "కాదు",
+        "done_prompt": "మరొకటి?",
+        "goodbye": "సెలవు!",
+        "thanks": "ధన్యవాదాలు."
+    },
+    "ml": {
+        "yes": "അതെ",
+        "no": "ഇല്ല",
+        "done_prompt": "ഇനിയും ഒന്ന്?",
+        "goodbye": "വിട!",
+        "thanks": "നന്ദി."
+    },
+    "kn": {
+        "yes": "ಹೌದು",
+        "no": "ಇಲ್ಲ",
+        "done_prompt": "ಇನ್ನೊಂದు?",
+        "goodbye": "ವಿದಾಯ!",
+        "thanks": "ಧನ್ಯವಾದ."
+    },
+    "mr": {
+        "yes": "हो",
+        "no": "नाही",
+        "done_prompt": "आणखी एक?",
+        "goodbye": "निरोप!",
+        "thanks": "धन्यवाद."
+    },
+    "ur": {
+        "yes": "ہاں",
+        "no": "نہیں",
+        "done_prompt": "ایک اور؟",
+        "goodbye": "الوداع!",
+        "thanks": "شکریہ۔"
+    },
+    "fa": {
+        "yes": "بله",
+        "no": "نه",
+        "done_prompt": "یک بار دیگر؟",
+        "goodbye": "خداحافظ!",
+        "thanks": "متشکرم."
+    },
+    "sw": {
+        "yes": "Ndiyo",
+        "no": "Hapana",
+        "done_prompt": "Moja zaidi?",
+        "goodbye": "Kwaheri!",
+        "thanks": "Asante."
+    },
+    "zu": {
+        "yes": "Yebo",
+        "no": "Cha",
+        "done_prompt": "Enye futhi?",
+        "goodbye": "Hamba kahle!",
+        "thanks": "Ngiyabonga."
+    },
+    "af": {
+        "yes": "Ja",
+        "no": "Nee",
+        "done_prompt": "Nóg een?",
+        "goodbye": "Totsiens!",
+        "thanks": "Dankie."
+    },
+    "nl": {
+        "yes": "Ja",
+        "no": "Nee",
+        "done_prompt": "Nog een?",
+        "goodbye": "Vaarwel!",
+        "thanks": "Dank je."
+    },
+    "sv": {
+        "yes": "Ja",
+        "no": "Nej",
+        "done_prompt": "En till?",
+        "goodbye": "Adjö!",
+        "thanks": "Tack."
+    },
+    "no": {
+        "yes": "Ja",
+        "no": "Nei",
+        "done_prompt": "En til?",
+        "goodbye": "Farvel!",
+        "thanks": "Takk."
+    },
+    "da": {
+        "yes": "Ja",
+        "no": "Nej",
+        "done_prompt": "En mere?",
+        "goodbye": "Farvel!",
+        "thanks": "Tak."
+    },
+    "fi": {
+        "yes": "Kyllä",
+        "no": "Ei",
+        "done_prompt": "Vielä yksi?",
+        "goodbye": "Näkemiin!",
+        "thanks": "Kiitos."
+    },
+    "pl": {
+        "yes": "Tak",
+        "no": "Nie",
+        "done_prompt": "Jeszcze jeden?",
+        "goodbye": "Do widzenia!",
+        "thanks": "Dziękuję."
+    },
+    "uk": {
+        "yes": "Так",
+        "no": "Ні",
+        "done_prompt": "Ще один?",
+        "goodbye": "До побачення!",
+        "thanks": "Дякую."
+    },
+    "cs": {
+        "yes": "Ano",
+        "no": "Ne",
+        "done_prompt": "Ještě jeden?",
+        "goodbye": "Na shledanou!",
+        "thanks": "Děkuji."
+    },
+    "sk": {
+        "yes": "Áno",
+        "no": "Nie",
+        "done_prompt": "Ešte jeden?",
+        "goodbye": "Dovidenia!",
+        "thanks": "Ďakujem."
+    },
+    "hu": {
+        "yes": "Igen",
+        "no": "Nem",
+        "done_prompt": "Még egyet?",
+        "goodbye": "Viszlát!",
+        "thanks": "Köszönöm."
+    },
+    "ro": {
+        "yes": "Da",
+        "no": "Nu",
+        "done_prompt": "Încă unul?",
+        "goodbye": "La revedere!",
+        "thanks": "Mulțumesc."
+    },
+    "bg": {
+        "yes": "Да",
+        "no": "Не",
+        "done_prompt": "Още един?",
+        "goodbye": "Довиждане!",
+        "thanks": "Благодаря."
+    },
+    "sr": {
+        "yes": "Да",
+        "no": "Не",
+        "done_prompt": "Још један?",
+        "goodbye": "Довиђења!",
+        "thanks": "Хвала."
+    },
+    "hr": {
+        "yes": "Da",
+        "no": "Ne",
+        "done_prompt": "Još jedan?",
+        "goodbye": "Doviđenja!",
+        "thanks": "Hvala."
+    },
+    "sl": {
+        "yes": "Da",
+        "no": "Ne",
+        "done_prompt": "Še enega?",
+        "goodbye": "Nasvidenje!",
+        "thanks": "Hvala."
+    },
+    "lt": {
+        "yes": "Taip",
+        "no": "Ne",
+        "done_prompt": "Dar vieną?",
+        "goodbye": "Sudie!",
+        "thanks": "Ačiū."
+    },
+    "lv": {
+        "yes": "Jā",
+        "no": "Nē",
+        "done_prompt": "Vēl vienu?",
+        "goodbye": "Uz redzēšanos!",
+        "thanks": "Paldies."
+    },
+    "et": {
+        "yes": "Jah",
+        "no": "Ei",
+        "done_prompt": "Veel üks?",
+        "goodbye": "Head aega!",
+        "thanks": "Aitäh."
+    },
+    "ga": {
+        "yes": "Tá",
+        "no": "Níl",
+        "done_prompt": "Ceann eile?",
+        "goodbye": "Slán!",
+        "thanks": "Go raibh maith agat."
+    },
+    "cy": {
+        "yes": "Ie",
+        "no": "Na",
+        "done_prompt": "Un arall?",
+        "goodbye": "Hwyl fawr!",
+        "thanks": "Diolch."
+    },
+    "is": {
+        "yes": "Já",
+        "no": "Nei",
+        "done_prompt": "Einn enn?",
+        "goodbye": "Bless!",
+        "thanks": "Takk."
+    },
+    "mk": {
+        "yes": "Да",
+        "no": "Не",
+        "done_prompt": "Уште еден?",
+        "goodbye": "Довидување!",
+        "thanks": "Фала."
+    },
+    "sq": {
+        "yes": "Po",
+        "no": "Jo",
+        "done_prompt": "Edhe një?",
+        "goodbye": "Mirupafshim!",
+        "thanks": "Faleminderit."
+    },
+    "el": {
+        "yes": "Ναι",
+        "no": "Όχι",
+        "done_prompt": "Άλλο ένα;",
+        "goodbye": "Αντίο!",
+        "thanks": "Ευχαριστώ."
+    },
+    "he": {
+        "yes": "כן",
+        "no": "לא",
+        "done_prompt": "עוד אחד?",
+        "goodbye": "להתראות!",
+        "thanks": "תודה."
+    },
+    "id": {
+        "yes": "Ya",
+        "no": "Tidak",
+        "done_prompt": "Satu lagi?",
+        "goodbye": "Selamat tinggal!",
+        "thanks": "Terima kasih."
+    },
+    "ms": {
+        "yes": "Ya",
+        "no": "Tidak",
+        "done_prompt": "Satu lagi?",
+        "goodbye": "Selamat tinggal!",
+        "thanks": "Terima kasih."
+    },
+    "tl": {
+        "yes": "Oo",
+        "no": "Hindi",
+        "done_prompt": "Isa pa?",
+        "goodbye": "Paalam!",
+        "thanks": "Salamat."
+    },
+    "vi": {
+        "yes": "Vâng",
+        "no": "Không",
+        "done_prompt": "Thêm một cái nữa?",
+        "goodbye": "Tạm biệt!",
+        "thanks": "Cảm ơn."
+    },
+    "th": {
+        "yes": "ใช่",
+        "no": "ไม่",
+        "done_prompt": "อีกหนึ่งไหม?",
+        "goodbye": "ลาก่อน!",
+        "thanks": "ขอบคุณ."
+    },
+    "km": {
+        "yes": "បាទ/ចាស",
+        "no": "ទេ",
+        "done_prompt": "មួយទៀត?",
+        "goodbye": "លាហើយ!",
+        "thanks": "អរគុណ។"
+    },
+    "lo": {
+        "yes": "ແມ່ນແລ້ວ",
+        "no": "ບໍ່",
+        "done_prompt": "ອີກໜຶ່ງ?",
+        "goodbye": "ລາກ່ອນ!",
+        "thanks": "ຂອບໃຈ."
+    },
+    "my": {
+        "yes": "ဟုတ်ပါတယ်",
+        "no": "မဟုတ်ဘူး",
+        "done_prompt": "တစ်ခုတစ်ခါထပ်မလား?",
+        "goodbye": "သွားก่อนနော်!",
+        "thanks": "ကျေးဇူးတင်ပါတယ်။"
+    },
+    "ka": {
+        "yes": "დიახ",
+        "no": "არა",
+        "done_prompt": "კიდევ ერთი?",
+        "goodbye": "ნახვამდის!",
+        "thanks": "გმადლობთ."
+    },
+    "hy": {
+        "yes": "Այո",
+        "no": "Ոչ",
+        "done_prompt": "Եվս մեկ?",
+        "goodbye": "Հաջողություն!",
+        "thanks": "Շնորհակալություն։"
+    },
+    "mn": {
+        "yes": "Тийм",
+        "no": "Үгүй",
+        "done_prompt": "Дахиад нэг?",
+        "goodbye": "Баяртай!",
+        "thanks": "Баярлалаа."
+    },
+    "kk": {
+        "yes": "Иә",
+        "no": "Жоқ",
+        "done_prompt": "Тағы біреу?",
+        "goodbye": "Сау болыңыз!",
+        "thanks": "Рақмет."
+    },
+    "uz": {
+        "yes": "Ha",
+        "no": "Yo'q",
+        "done_prompt": "Yana bitta?",
+        "goodbye": "Xayr!",
+        "thanks": "Rahmat."
+    },
+    "tg": {
+        "yes": "Бале",
+        "no": "Не",
+        "done_prompt": "Боз якто?",
+        "goodbye": "Хайр!",
+        "thanks": "Ташаккур."
+    },
+    "ky": {
+        "yes": "Ооба",
+        "no": "Жок",
+        "done_prompt": "Дагы бирөө?",
+        "goodbye": "Кош!",
+        "thanks": "Рахмат."
+    },
+    "ps": {
+        "yes": "هو",
+        "no": "نه",
+        "done_prompt": "يو بل؟",
+        "goodbye": "خدای پامان!",
+        "thanks": "مننه."
+    },
+    "kk-Arab": {
+        "yes": "ئا",
+        "no": "جوق",
+        "done_prompt": "تاگی بىرى؟",
+        "goodbye": "ساۋ بولىڭىز!",
+        "thanks": "راحمەت."
+    },
+    "kk-Cyrl": {
+        "yes": "Иә",
+        "no": "Жоқ",
+        "done_prompt": "Тағы біреу?",
+        "goodbye": "Сау болыңыз!",
+        "thanks": "Рақмет."
+    },
+    "be": {
+        "yes": "Так",
+        "no": "Не",
+        "done_prompt": "Яшчэ адзін?",
+        "goodbye": "Да пабачэння!",
+        "thanks": "Дзякуй."
+    },
+    "la": {
+        "yes": "Ita",
+        "no": "Non",
+        "done_prompt": "Unum plus?",
+        "goodbye": "Vale!",
+        "thanks": "Gratias tibi ago."
+    },
+    "eo": {
+        "yes": "Jes",
+        "no": "Ne",
+        "done_prompt": "Ankoraŭ unu?",
+        "goodbye": "Ĝis la revido!",
+        "thanks": "Dankon."
+    },
+    "ha": {
+        "yes": "I",
+        "no": "A'a",
+        "done_prompt": "Wani ɗaya?",
+        "goodbye": "Sai anjima!",
+        "thanks": "Na gode."
+    },
+    "ig": {
+        "yes": "Ee",
+        "no": "Mba",
+        "done_prompt": "Otu ọzọ?",
+        "goodbye": "Ka ọ mesịa!",
+        "thanks": "Daalụ."
+    },
+    "yo": {
+        "yes": "Bẹ́ẹ̀ni",
+        "no": "Rárá",
+        "done_prompt": "Mírántí kan sí i?",
+        "goodbye": "O dàbọ̀!",
+        "thanks": "Ẹ ṣé."
+    },
+    "ak": {
+        "yes": "Aane",
+        "no": "Dabi",
+        "done_prompt": "Bio bi?",
+        "goodbye": "Nante yie!",
+        "thanks": "Meda wo ase."
+    },
+    "am": {
+        "yes": "አዎ",
+        "no": "አይ",
+        "done_prompt": "ሌላ አንድ?",
+        "goodbye": "ቻው!",
+        "thanks": "አመሰግናለሁ።"
+    },
+    "om": {
+        "yes": "Ee",
+        "no": "Lakki",
+        "done_prompt": "Kanne tokko biraa?",
+        "goodbye": "Nagaa!",
+        "thanks": "Galatoomi."
+    },
+    "so": {
+        "yes": "Haa",
+        "no": "Maya",
+        "done_prompt": "Mid kale?",
+        "goodbye": "Nabad gelyo!",
+        "thanks": "Mahadsanid."
+    },
+    "ti": {
+        "yes": "እወ",
+        "no": "ኣይ",
+        "done_prompt": "ሓደ ደሓር?",
+        "goodbye": "ቻው!",
+        "thanks": "የቐንየለይ።"
+    },
+    "rw": {
+        "yes": "Yego",
+        "no": "Oya",
+        "done_prompt": "Undi umwe?",
+        "goodbye": "Murabeho!",
+        "thanks": "Urakoze."
+    },
+    "ln": {
+        "yes": "Ee",
+        "no": "Te",
+        "done_prompt": "Moko mosusu?",
+        "goodbye": "Kende malamu!",
+        "thanks": "Mersi."
+    },
+    "lg": {
+        "yes": "Yee",
+        "no": "Nedda",
+        "done_prompt": "Omunne omulala?",
+        "goodbye": "Weeraba!",
+        "thanks": "Webale."
+    },
+    "xh": {
+        "yes": "Ewe",
+        "no": "Hayi",
+        "done_prompt": "Enye kwakhona?",
+        "goodbye": "Hamba kakuhle!",
+        "thanks": "Enkosi."
+    },
+    "st": {
+        "yes": "Ee",
+        "no": "Che",
+        "done_prompt": "E 'ngoe hape?",
+        "goodbye": "Sala hantle!",
+        "thanks": "Kea leboha."
+    },
+    "ts": {
+        "yes": "Ee",
+        "no": "E-e",
+        "done_prompt": "Nkokan'we yo tala?",
+        "goodbye": "Fambani kahle!",
+        "thanks": "Ndza khensa."
+    },
+    "tn": {
+        "yes": "Ee",
+        "no": "Nnyaa",
+        "done_prompt": "E nngwe?",
+        "goodbye": "Tsamaya sentle!",
+        "thanks": "Ke a leboga."
+    },
+    "ve": {
+        "yes": "Ee",
+        "no": "Hai",
+        "done_prompt": "Tshimbilutshe tshinwe?",
+        "goodbye": "Nelsoni!",
+        "thanks": "Ndo livhuwa."
+    },
+    "sn": {
+        "yes": "Hongu",
+        "no": "Kwete",
+        "done_prompt": "Chimwezve?",
+        "goodbye": "Sara zvakanaka!",
+        "thanks": "Ndatenda."
+    },
+    "ny": {
+        "yes": "Inde",
+        "no": "Ayi",
+        "done_prompt": "Ina enanso?",
+        "goodbye": "Tsalani bwino!",
+        "thanks": "Zikomo."
+    },
+    "ig-Latn": {
+        "yes": "Ee",
+        "no": "Mba",
+        "done_prompt": "Otu ọzọ?",
+        "goodbye": "Ka ọ mesịa!",
+        "thanks": "Daalụ."
+    },
+    "ff": {
+        "yes": "Ee",
+        "no": "Alaa",
+        "done_prompt": "Ko ɗi ka?",
+        "goodbye": "Ma a jaara!",
+        "thanks": "Jaraama."
+    },
+    "wo": {
+        "yes": "Waaw",
+        "no": "Déedéet",
+        "done_prompt": "Beneen?",
+        "goodbye": "Ba beneen yoon!",
+        "thanks": "Jërëjëf."
+    },
+    "bm": {
+        "yes": "Awɔ",
+        "no": "Ayi",
+        "done_prompt": "Kelen ka jan?",
+        "goodbye": "Ka kɛnɛ!",
+        "thanks": "I ni ce."
+    },
+    "ak-Latn": {
+        "yes": "Aane",
+        "no": "Dabi",
+        "done_prompt": "Bio bi?",
+        "goodbye": "Nante yie!",
+        "thanks": "Meda wo ase."
+    },
+    "rn": {
+        "yes": "Ego",
+        "no": "Oya",
+        "done_prompt": "Rindi iyindi?",
+        "goodbye": "Mwirirwe!",
+        "thanks": "Urakoze."
+    },
+    "lu": {
+        "yes": "Eeh",
+        "no": "Te",
+        "done_prompt": "Dîshî ya nkenda?",
+        "goodbye": "Keba bimpe!",
+        "thanks": "Tωnde."
+    },
+    "crs": {
+        "yes": "Wi",
+        "no": "Non",
+        "done_prompt": "Enn ankor?",
+        "goodbye": "Orevwar!",
+        "thanks": "Mersi."
+    },
+    "ht": {
+        "yes": "Wi",
+        "no": "Non",
+        "done_prompt": "Yon lòt?",
+        "goodbye": "Orevwa!",
+        "thanks": "Mèsi."
+    },
+    "qu": {
+        "yes": "Arí",
+        "no": "Mana",
+        "done_prompt": "Huk ñiqin?",
+        "goodbye": "Paqarinchasqam!",
+        "thanks": "Pagarachu."
+    },
+    "ay": {
+        "yes": "Jisa",
+        "no": "Jani",
+        "done_prompt": "Mayni más?",
+        "goodbye": "Kamisaraki!",
+        "thanks": "Yuspagara."
+    },
+    "gn": {
+        "yes": "Hêe",
+        "no": "Nahániri",
+        "done_prompt": "Peteĩvevé?",
+        "goodbye": "Jajotopata!",
+        "thanks": "Aguyje."
+    },
+    "rm": {
+        "yes": "Gea",
+        "no": "Na",
+        "done_prompt": "Anc in?",
+        "goodbye": "A revair!",
+        "thanks": "Grazia."
+    },
+    "sc": {
+        "yes": "Èia",
+        "no": "Non",
+        "done_prompt": "Un'àtera?",
+        "goodbye": "Adiosu!",
+        "thanks": "Gratzias."
+    },
+    "ca": {
+        "yes": "Sí",
+        "no": "No",
+        "done_prompt": "Una més?",
+        "goodbye": "Adéu!",
+        "thanks": "Gràcies."
+    },
+    "gl": {
+        "yes": "Si",
+        "no": "Non",
+        "done_prompt": "Outra máis?",
+        "goodbye": "Adeus!",
+        "thanks": "Grazas."
+    },
+    "eu": {
+        "yes": "Bai",
+        "no": "Ez",
+        "done_prompt": "Beste bat?",
+        "goodbye": "Agur!",
+        "thanks": "Eskerrik asko."
+    },
+    "ast": {
+        "yes": "Sí",
+        "no": "Non",
+        "done_prompt": "Otra más?",
+        "goodbye": "Adiós!",
+        "thanks": "Gracies."
+    },
+    "br": {
+        "yes": "Ya",
+        "no": "Ket",
+        "done_prompt": "Unan all?",
+        "goodbye": "Kenavo!",
+        "thanks": "Trugarez."
+    },
+    "co": {
+        "yes": "Iè",
+        "no": "Innò",
+        "done_prompt": "Un altra?",
+        "goodbye": "Avvedeci!",
+        "thanks": "Grazie."
+    },
+    "fy": {
+        "yes": "Ja",
+        "no": "Nee",
+        "done_prompt": "Noch ien?",
+        "goodbye": "Oant sjen!",
+        "thanks": "Tankewol."
+    },
+    "lb": {
+        "yes": "Jo",
+        "no": "Nee",
+        "done_prompt": "Nach eng?",
+        "goodbye": "Äddi!",
+        "thanks": "Merci."
+    },
+    "scn": {
+        "yes": "Sì",
+        "no": "No",
+        "done_prompt": "N'autra?",
+        "goodbye": "Ciau!",
+        "thanks": "Grazij."
+    },
+    "lad": {
+        "yes": "Sí",
+        "no": "No",
+        "done_prompt": "Otra vez?",
+        "goodbye": "Adió!",
+        "thanks": "Muchas grasias."
+    },
+    "rom": {
+        "yes": "Da",
+        "no": "Ni",
+        "done_prompt": "Inklo kod?",
+        "goodbye": "Lačhi rat!",
+        "thanks": "Palikerav."
+    },
+    "yi": {
+        "yes": "יאָ",
+        "no": "ניין",
+        "done_prompt": "נאָך איינס?",
+        "goodbye": "אַ גוטן!",
+        "thanks": "אַ דאַנק."
+    },
+    "jv": {
+        "yes": "Ya",
+        "no": "Ora",
+        "done_prompt": "Siji maneh?",
+        "goodbye": "Matur nuwun, dadah!",
+        "thanks": "Matur nuwun."
+    },
+    "su": {
+        "yes": "Leres",
+        "no": "Henteu",
+        "done_prompt": "Sahiji deui?",
+        "goodbye": "Pamisah!",
+        "thanks": "Hatur nuhun."
+    },
+    "ceb": {
+        "yes": "Oo",
+        "no": "Dili",
+        "done_prompt": "Usa pa?",
+        "goodbye": "Babay!",
+        "thanks": "Salamat."
+    },
+    "ilo": {
+        "yes": "Wen",
+        "no": "Saan",
+        "done_prompt": "Maysa pay?",
+        "goodbye": "Agyamanak!",
+        "thanks": "Agyamanak."
+    },
+    "haw": {
+        "yes": "ʻAe",
+        "no": "ʻAʻole",
+        "done_prompt": "Hoʻi hou kekahi?",
+        "goodbye": "A hui hou!",
+        "thanks": "Mahalo."
+    },
+    "sm": {
+        "yes": "Ioe",
+        "no": "Leai",
+        "done_prompt": "Le isi?",
+        "goodbye": "Tōfā!",
+        "thanks": "Fa'afetai."
+    },
+    "mg": {
+        "yes": "Eny",
+        "no": "Tsia",
+        "done_prompt": "Ankety iray hafa?",
+        "goodbye": "Veloma!",
+        "thanks": "Misaotra."
+    },
+    "mt": {
+        "yes": "Iva",
+        "no": "Le",
+        "done_prompt": "Waħda oħra?",
+        "goodbye": "Ċaw!",
+        "thanks": "Grazzi."
+    },
+    "nv": {
+        "yes": "Aoo",
+        "no": "Dooda",
+        "done_prompt": "Tʼááłáʼí tʼéiyá?",
+        "goodbye": "Hágoónee!",
+        "thanks": "Ahéhee’."
+    },
+    "iu": {
+        "yes": "ᐊᐅᒃᓱᑎ",
+        "no": "ᐊᒻᒪᓗᒃ",
+        "done_prompt": "ᐊᐅᒃᓱᑎ ᐅᓪᓗᐊ?",
+        "goodbye": "ᓇᑦᓯᐊᖅ!",
+        "thanks": "ᑐᙵᓂ."
+    },
+    "oj": {
+        "yes": "Enh",
+        "no": "Kaa",
+        "done_prompt": "Mii wa niin?",
+        "goodbye": "Giga-waabamin!",
+        "thanks": "Miigwech."
+    },
+    "cr": {
+        "yes": "âha",
+        "no": "môla",
+        "done_prompt": "Mîna piko?",
+        "goodbye": "Nikâmowan!",
+        "thanks": "Kinânaskomitin."
+    },
+    "iu-Latn": {
+        "yes": "Auksioti",
+        "no": "Ammaluk",
+        "done_prompt": "Auksioti ullua?",
+        "goodbye": "Natsiaaq!",
+        "thanks": "Qujannamiik."
+    },
+    "dz": {
+        "yes": "ཨེམ་དུས། (Emdu?)",
+        "no": "མིན། (Min)",
+        "done_prompt": "དེ་ཙམ་སུམ་བཏགས།?",
+        "goodbye": "ག་ལེ་ཕེབས།",
+        "thanks": "ཐུགས་རྗེ་ཆེ།"
+    },
+    "bo": {
+        "yes": "ཨེ",
+        "no": "མིན",
+        "done_prompt": "མང་བ་གསུམ།?",
+        "goodbye": "ག་ལེ་ཕེབས།",
+        "thanks": "ཐུགས་རྗེ་ཆེ།"
+    },
+    "ug": {
+        "yes": "ھەئە",
+        "no": "ياق",
+        "done_prompt": "يەنە بىرە؟",
+        "goodbye": "خوش!",
+        "thanks": "رەھمەت."
+    },
+    "tt": {
+        "yes": "Әйе",
+        "no": "Юк",
+        "done_prompt": "Тагын бер?",
+        "goodbye": "Сау бул!",
+        "thanks": "Рәхмәт."
+    },
+    "cv": {
+        "yes": "Эç",
+        "no": "Юк",
+        "done_prompt": "Тагын пуç?",
+        "goodbye": "Хуш!",
+        "thanks": "Сенер."
+    },
+    "ba": {
+        "yes": "Эйе",
+        "no": "Юҡ",
+        "done_prompt": "Тағы берәү?",
+        "goodbye": "Хау бул!",
+        "thanks": "Рәхмәт."
+    },
+    "dv": {
+        "yes": "ހުކުރި",
+        "no": "ނުން",
+        "done_prompt": "އެކި އިންތަ?",
+        "goodbye": "ބައިވެ!",
+        "thanks": "ޝުކުރިއްޔާ."
+    },
+    "xh-Latn": {
+        "yes": "Ewe",
+        "no": "Hayi",
+        "done_prompt": "Enye kwakhona?",
+        "goodbye": "Hamba kakuhle!",
+        "thanks": "Enkosi."
+    }
+}

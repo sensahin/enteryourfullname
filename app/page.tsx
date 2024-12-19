@@ -1,101 +1,181 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useState, useEffect } from 'react';
+
+type ResponseType = {
+  type: 'question' | 'identify' | 'done' | 'exit';
+  question: string|null;
+  response: string|null;
+  language: string;
+};
+
+export default function Page() {
+  const [translations, setTranslations] = useState<any>({});
+  const [currentLanguage, setCurrentLanguage] = useState('en');
+  const [viewState, setViewState] = useState<'start'|'question'|'identify'|'done'|'exit'>('start');
+  const [questionText, setQuestionText] = useState('');
+  const [identifyText, setIdentifyText] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const [fullname, setFullname] = useState('');
+
+  useEffect(() => {
+    fetch('/translations.json')
+      .then(res => res.json())
+      .then(data => setTranslations(data));
+  }, []);
+
+  async function handleStart(e: React.FormEvent) {
+    e.preventDefault();
+    setLoading(true);
+    const res = await fetch('/api/start', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ fullname })
+    });
+    const json: ResponseType = await res.json();
+    setLoading(false);
+    handleResponse(json);
+  }
+
+  async function handleYes() {
+    await handleAction(translations[currentLanguage].yes.toLowerCase());
+  }
+
+  async function handleNo() {
+    await handleAction(translations[currentLanguage].no.toLowerCase());
+  }
+
+  async function handleAction(action: string) {
+    setLoading(true);
+    const res = await fetch('/api/answer', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({action})
+    });
+    const json: ResponseType = await res.json();
+    setLoading(false);
+    handleResponse(json);
+  }
+
+  async function handleConfirmYes() {
+    setLoading(true);
+    const res = await fetch('/api/confirm', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ confirm: translations[currentLanguage].yes.toLowerCase() })
+    });
+    const json: ResponseType = await res.json();
+    setLoading(false);
+    handleResponse(json);
+  }
+
+  async function handleConfirmNo() {
+    setLoading(true);
+    const res = await fetch('/api/confirm', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ confirm: translations[currentLanguage].no.toLowerCase() })
+    });
+    const json: ResponseType = await res.json();
+    setLoading(false);
+    handleResponse(json);
+  }
+
+  async function handleNoDone() {
+    setLoading(true);
+    const res = await fetch('/api/exit');
+    const json: ResponseType = await res.json();
+    setLoading(false);
+    handleResponse(json);
+  }
+
+  function handleYesDone() {
+    // reload page to start from scratch
+    window.location.href = '/';
+  }
+
+  function handleResponse(response: ResponseType) {
+    const { type, question, response: identifyResponse, language } = response;
+    setCurrentLanguage(language || 'en');
+    if (!translations[language || 'en']) {
+      setCurrentLanguage('en');
+    }
+
+    if (type === 'question') {
+      setViewState('question');
+      setQuestionText(question || '');
+    } else if (type === 'identify') {
+      setViewState('identify');
+      setIdentifyText(identifyResponse || '');
+    } else if (type === 'done') {
+      setViewState('done');
+    } else if (type === 'exit') {
+      setViewState('exit');
+    }
+  }
+
+  if (!translations || Object.keys(translations).length === 0) return <div className="spinner"></div>;
+
+  const t = translations[currentLanguage] || translations['en'];
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+    <main>
+      {loading && <div className="spinner"></div>}
+      {!loading && viewState === 'start' && (
+        <div className="form__group field">
+          <form onSubmit={handleStart}>
+            <input 
+              type="text" 
+              className="form__field" 
+              placeholder="Enter your full name" 
+              value={fullname}
+              onChange={(e) => setFullname(e.target.value)}
+              id="fullnameInput"
+              name="fullname"
+              required 
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            <label className="form__label" htmlFor="fullnameInput">Enter your full name</label>
+          </form>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      )}
+
+      {!loading && viewState === 'question' && (
+        <div>
+          <p className="question-text">{questionText}</p>
+          <div className="flex-row">
+            <button onClick={handleYes}>{t.yes}</button>
+            <button onClick={handleNo}>{t.no}</button>
+          </div>
+        </div>
+      )}
+
+      {!loading && viewState === 'identify' && (
+        <div>
+          <p className="question-text">{identifyText}</p>
+          <div className="flex-row">
+            <button onClick={handleConfirmYes}>{t.yes}</button>
+            <button onClick={handleConfirmNo}>{t.no}</button>
+          </div>
+        </div>
+      )}
+
+      {!loading && viewState === 'done' && (
+        <div>
+          <h1>{t.done_prompt || 'One more?'}</h1>
+          <div className="flex-row">
+            <button onClick={handleYesDone}>{t.yes}</button>
+            <button onClick={handleNoDone}>{t.no}</button>
+          </div>
+        </div>
+      )}
+
+      {!loading && viewState === 'exit' && (
+        <div>
+          <h1>{t.goodbye || 'Goodbye!'}</h1>
+          <p>{t.thanks || 'Thank you.'}</p>
+        </div>
+      )}
+    </main>
   );
 }
