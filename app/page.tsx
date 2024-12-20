@@ -32,7 +32,21 @@ export default function Page() {
   const [loading, setLoading] = useState(false);
   const [fullname, setFullname] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
+  // Load saved theme from localStorage
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      setTheme('dark');
+      document.documentElement.classList.add('dark');
+    } else {
+      setTheme('light');
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
+
+  // Load translations
   useEffect(() => {
     (async () => {
       try {
@@ -50,6 +64,17 @@ export default function Page() {
       }
     })();
   }, []);
+
+  function toggleTheme() {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+    if (newTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    localStorage.setItem('theme', newTheme);
+  }
 
   async function handleStart(e: React.FormEvent) {
     e.preventDefault();
@@ -221,65 +246,72 @@ export default function Page() {
   const t = translations[currentLanguage] || translations['en'];
 
   return (
-    <main>
-      {loading && <div className="spinner"></div>}
-      {errorMessage && <div className="error">{errorMessage}</div>}
-      
-      {!loading && !errorMessage && viewState === 'start' && (
-        <div className="card">
-          <form onSubmit={handleStart} className="start-form">
-            <label className="form__label" htmlFor="fullnameInput">Enter your full name</label>
-            <input 
-              type="text" 
-              className="form__field" 
-              placeholder="Your full name..." 
-              value={fullname}
-              onChange={(e) => setFullname(e.target.value)}
-              id="fullnameInput"
-              name="fullname"
-              required 
-            />
-            <button type="submit" className="primary-button">Start</button>
-          </form>
-        </div>
-      )}
-
-      {!loading && !errorMessage && viewState === 'question' && (
-        <div className="card">
-          <p className="question-text">{questionText}</p>
-          <div className="button-group">
-            <button onClick={handleYes} className="primary-button">{t.yes}</button>
-            <button onClick={handleNo} className="secondary-button">{t.no}</button>
+    <>
+      <header className="header">
+        <button onClick={toggleTheme} className="theme-toggle">
+          {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
+        </button>
+      </header>
+      <main>
+        {loading && <div className="spinner"></div>}
+        {errorMessage && <div className="error">{errorMessage}</div>}
+        
+        {!loading && !errorMessage && viewState === 'start' && (
+          <div className="card">
+            <form onSubmit={handleStart} className="start-form">
+              <label className="form__label" htmlFor="fullnameInput">Enter your full name</label>
+              <input 
+                type="text" 
+                className="form__field" 
+                placeholder="Your full name..." 
+                value={fullname}
+                onChange={(e) => setFullname(e.target.value)}
+                id="fullnameInput"
+                name="fullname"
+                required 
+              />
+              <button type="submit" className="primary-button">Start</button>
+            </form>
           </div>
-        </div>
-      )}
+        )}
 
-      {!loading && !errorMessage && viewState === 'identify' && (
-        <div className="card">
-          <ReactMarkdown className="question-text">{identifyText}</ReactMarkdown>
-          <div className="button-group">
-            <button onClick={handleConfirmYes} className="primary-button">{t.yes}</button>
-            <button onClick={handleConfirmNo} className="secondary-button">{t.no}</button>
+        {!loading && !errorMessage && viewState === 'question' && (
+          <div className="card">
+            <p className="question-text">{questionText}</p>
+            <div className="button-group">
+              <button onClick={handleYes} className="primary-button">{t.yes}</button>
+              <button onClick={handleNo} className="secondary-button">{t.no}</button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {!loading && !errorMessage && viewState === 'done' && (
-        <div className="card">
-          <h1>{t.done_prompt || 'One more?'}</h1>
-          <div className="button-group">
-            <button onClick={handleYesDone} className="primary-button">{t.yes}</button>
-            <button onClick={handleNoDone} className="secondary-button">{t.no}</button>
+        {!loading && !errorMessage && viewState === 'identify' && (
+          <div className="card">
+            <ReactMarkdown className="question-text">{identifyText}</ReactMarkdown>
+            <div className="button-group">
+              <button onClick={handleConfirmYes} className="primary-button">{t.yes}</button>
+              <button onClick={handleConfirmNo} className="secondary-button">{t.no}</button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {!loading && !errorMessage && viewState === 'exit' && (
-        <div className="card">
-          <h1>{t.goodbye || 'Goodbye!'}</h1>
-          <p>{t.thanks || 'Thank you.'}</p>
-        </div>
-      )}
-    </main>
+        {!loading && !errorMessage && viewState === 'done' && (
+          <div className="card">
+            <h1>{t.done_prompt || 'One more?'}</h1>
+            <div className="button-group">
+              <button onClick={handleYesDone} className="primary-button">{t.yes}</button>
+              <button onClick={handleNoDone} className="secondary-button">{t.no}</button>
+            </div>
+          </div>
+        )}
+
+        {!loading && !errorMessage && viewState === 'exit' && (
+          <div className="card">
+            <h1>{t.goodbye || 'Goodbye!'}</h1>
+            <p>{t.thanks || 'Thank you.'}</p>
+          </div>
+        )}
+      </main>
+    </>
   );
 }
