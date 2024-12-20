@@ -1,4 +1,5 @@
 :root {
+  /* Light theme variables */
   --primary-color: #4a90e2;
   --secondary-color: #7b4397;
   --error-color: #e74c3c;
@@ -8,6 +9,17 @@
   --card-shadow: 0 2px 10px rgba(0,0,0,0.1);
   --border-radius: 8px;
   --max-width: 400px;
+}
+
+/* Dark theme variables */
+:root.dark {
+  --primary-color: #4a90e2; /* same primary color can be kept or changed if desired */
+  --secondary-color: #7b4397;
+  --error-color: #e74c3c;
+  --background: #121212;
+  --text-color: #dddddd;
+  --card-background: #1e1e1e;
+  --card-shadow: 0 2px 10px rgba(0,0,0,0.5);
 }
 
 html, body {
@@ -23,6 +35,31 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+}
+
+.header {
+  width: 100%;
+  text-align: right;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.theme-toggle:hover {
+  background: rgba(0,0,0,0.1);
+}
+:root.dark .theme-toggle:hover {
+  background: rgba(255,255,255,0.1);
 }
 
 main {
@@ -81,6 +118,7 @@ p {
   box-sizing: border-box;
   margin-bottom: 1rem;
   color: var(--text-color);
+  background: transparent;
 }
 
 .form__field:focus {
@@ -129,9 +167,16 @@ p {
   color: var(--text-color);
   border: 1px solid #cccccc;
 }
+:root.dark .secondary-button {
+  background: #2a2a2a;
+  border-color: #444444;
+}
 
 .secondary-button:hover {
   background: #f0f0f0;
+}
+:root.dark .secondary-button:hover {
+  background: #3a3a3a;
 }
 
 .secondary-button:active {
