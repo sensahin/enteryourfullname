@@ -226,56 +226,56 @@ export default function Page() {
       {errorMessage && <div className="error">{errorMessage}</div>}
       
       {!loading && !errorMessage && viewState === 'start' && (
-        <div className="form__group field">
-          <form onSubmit={handleStart}>
+        <div className="card">
+          <form onSubmit={handleStart} className="start-form">
+            <label className="form__label" htmlFor="fullnameInput">Enter your full name</label>
             <input 
               type="text" 
               className="form__field" 
-              placeholder="Enter your full name" 
+              placeholder="Your full name..." 
               value={fullname}
               onChange={(e) => setFullname(e.target.value)}
               id="fullnameInput"
               name="fullname"
               required 
             />
-            <label className="form__label" htmlFor="fullnameInput">Enter your full name</label>
+            <button type="submit" className="primary-button">Start</button>
           </form>
         </div>
       )}
 
       {!loading && !errorMessage && viewState === 'question' && (
-        <div>
+        <div className="card">
           <p className="question-text">{questionText}</p>
-          <div className="flex-row">
-            <button onClick={handleYes}>{t.yes}</button>
-            <button onClick={handleNo}>{t.no}</button>
+          <div className="button-group">
+            <button onClick={handleYes} className="primary-button">{t.yes}</button>
+            <button onClick={handleNo} className="secondary-button">{t.no}</button>
           </div>
         </div>
       )}
 
       {!loading && !errorMessage && viewState === 'identify' && (
-        <div>
-          {/* Here we use ReactMarkdown to render the identifyText markdown properly */}
+        <div className="card">
           <ReactMarkdown className="question-text">{identifyText}</ReactMarkdown>
-          <div className="flex-row">
-            <button onClick={handleConfirmYes}>{t.yes}</button>
-            <button onClick={handleConfirmNo}>{t.no}</button>
+          <div className="button-group">
+            <button onClick={handleConfirmYes} className="primary-button">{t.yes}</button>
+            <button onClick={handleConfirmNo} className="secondary-button">{t.no}</button>
           </div>
         </div>
       )}
 
       {!loading && !errorMessage && viewState === 'done' && (
-        <div>
+        <div className="card">
           <h1>{t.done_prompt || 'One more?'}</h1>
-          <div className="flex-row">
-            <button onClick={handleYesDone}>{t.yes}</button>
-            <button onClick={handleNoDone}>{t.no}</button>
+          <div className="button-group">
+            <button onClick={handleYesDone} className="primary-button">{t.yes}</button>
+            <button onClick={handleNoDone} className="secondary-button">{t.no}</button>
           </div>
         </div>
       )}
 
       {!loading && !errorMessage && viewState === 'exit' && (
-        <div>
+        <div className="card">
           <h1>{t.goodbye || 'Goodbye!'}</h1>
           <p>{t.thanks || 'Thank you.'}</p>
         </div>
