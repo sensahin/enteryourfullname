@@ -52,7 +52,7 @@ body {
   padding: 0.5rem 1rem;
   border-radius: var(--border-radius);
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
 .theme-toggle:hover {
@@ -101,30 +101,7 @@ p {
   color: var(--text-color);
 }
 
-.form__label {
-  display: block;
-  text-align: left;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-  color: var(--text-color);
-}
 
-.form__field {
-  width: 100%;
-  border: 1px solid #cccccc;
-  border-radius: var(--border-radius);
-  padding: 0.75rem;
-  font-size: 1rem;
-  box-sizing: border-box;
-  margin-bottom: 1rem;
-  color: var(--text-color);
-  background: transparent;
-}
-
-.form__field:focus {
-  outline: none;
-  border-color: var(--primary-color);
-}
 
 .start-form {
   display: flex;
@@ -145,7 +122,7 @@ p {
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.1s ease;
+  transition: background-color 0.2s ease, transform 0.1s ease;
   font-weight: 500;
 }
 
@@ -209,7 +186,75 @@ p {
   text-align: center;
   margin: 1rem auto;
 }
-
+/* =====================================
+   Floating-label input style 
+   (put this at the bottom of globals.css)
+   ===================================== */
+   .form__group {
+    position: relative;
+    padding: 15px 0 0;
+    margin-top: 10px;
+    width: 100%; /* So it spans the width of the card */
+  }
+  
+  .form__field {
+    font-family: inherit;
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid var(--text-color);
+    outline: 0;
+    font-size: 1.3rem;
+    color: var(--text-color);
+    padding: 7px 0;
+    background: transparent;
+    transition: border-color 0.2s;
+  }
+  
+  /* Hide the placeholder text visually, so it doesn't conflict with the floating label */
+  .form__field::placeholder {
+    color: transparent;
+  }
+  
+  /* When the placeholder is shown (meaning the user hasn't typed yet), 
+     we move the label to appear as if it's inside the input. */
+  .form__field:placeholder-shown ~ .form__label {
+    font-size: 1.3rem;
+    cursor: text;
+    top: 20px;
+  }
+  
+  /* The label sits absolutely on top of the input */
+  .form__label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 1rem;
+    color: var(--text-color);
+  }
+  
+  /* When input is focused, "lift" the label to the top and style the border */
+  .form__field:focus {
+    border-bottom-width: 3px;
+    border-image: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+    border-image-slice: 1;
+  
+    /* The tilde (~) here means "target the next sibling .form__label" */
+    ~ .form__label {
+      top: 0;
+      font-size: 1rem;
+      color: var(--primary-color);
+      font-weight: 700;
+    }
+    padding-bottom: 6px;
+    font-weight: 700;
+  }
+  
+  /* Remove any default invalid shadows in some browsers */
+  .form__field:required,
+  .form__field:invalid {
+    box-shadow: none;
+  }
 @media (max-width: 600px) {
   .card {
     padding: 1.5rem 1rem;

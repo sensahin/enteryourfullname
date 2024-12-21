@@ -264,23 +264,26 @@ export default function Page() {
         {errorMessage && <div className="error">{errorMessage}</div>}
         
         {!loading && !errorMessage && viewState === 'start' && (
-          <div className="card">
-            <form onSubmit={handleStart} className="start-form">
-              <label className="form__label" htmlFor="fullnameInput">Enter your full name</label>
-              <input 
-                type="text" 
-                className="form__field" 
-                placeholder="Your full name..." 
+        <div className="card">
+          <form onSubmit={handleStart} className="start-form">
+            <div className="form__group field">
+              <input
+                type="text"
+                className="form__field"
+                placeholder="Enter your full name"
+                name="fullname"
+                id="fullnameInput"
                 value={fullname}
                 onChange={(e) => setFullname(e.target.value)}
-                id="fullnameInput"
-                name="fullname"
-                required 
+                required
               />
-              <button type="submit" className="primary-button">Start</button>
-            </form>
-          </div>
-        )}
+              <label htmlFor="fullnameInput" className="form__label">
+               Enter your full name
+              </label>
+            </div>
+          </form>
+        </div>
+      )}
 
         {!loading && !errorMessage && viewState === 'question' && (
           <div className="card">
