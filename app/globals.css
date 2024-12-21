@@ -264,3 +264,9 @@ p {
     width: 100%;
   }
 }
+@media (min-width: 768px) {
+  main {
+    align-items: flex-start; /* Instead of 'center' */
+    padding-top: 4rem;       /* Or whatever vertical offset you like */
+  }
+}
