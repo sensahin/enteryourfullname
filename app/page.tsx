@@ -32,17 +32,24 @@ export default function Page() {
   const [loading, setLoading] = useState(false);
   const [fullname, setFullname] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  // Set dark mode as the default for new visitors
+  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
 
-  // Load saved theme from localStorage
+  // On component mount, check for saved theme and apply it; if not found, remain on 'dark'
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-      setTheme('dark');
-      document.documentElement.classList.add('dark');
+    if (savedTheme) {
+      // Use saved preference
+      setTheme(savedTheme === 'dark' ? 'dark' : 'light');
+      if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
     } else {
-      setTheme('light');
-      document.documentElement.classList.remove('dark');
+      // No saved preference, default to dark
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
     }
   }, []);
 
@@ -66,7 +73,7 @@ export default function Page() {
   }, []);
 
   function toggleTheme() {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
     setTheme(newTheme);
     if (newTheme === 'dark') {
       document.documentElement.classList.add('dark');
@@ -249,7 +256,7 @@ export default function Page() {
     <>
       <header className="header">
         <button onClick={toggleTheme} className="theme-toggle">
-          {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
+          {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
         </button>
       </header>
       <main>

@@ -1,5 +1,5 @@
 :root {
-  /* Light theme variables */
+  /* Default (light mode) variables, but we'll *start* in dark mode if no preference is found. */
   --primary-color: #4a90e2;
   --secondary-color: #7b4397;
   --error-color: #e74c3c;
@@ -13,7 +13,7 @@
 
 /* Dark theme variables */
 :root.dark {
-  --primary-color: #4a90e2; /* same primary color can be kept or changed if desired */
+  --primary-color: #4a90e2;
   --secondary-color: #7b4397;
   --error-color: #e74c3c;
   --background: #121212;
