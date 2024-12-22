@@ -24,6 +24,7 @@ export async function GET(request: Request) {
     const translations: Translations = JSON.parse(data);
 
     const langTranslations = translations[languageParam] || translations['en'];
+
     return NextResponse.json({
       type: "exit",
       question: null,
@@ -35,7 +36,14 @@ export async function GET(request: Request) {
       ]
     });
   } catch (error: any) {
+    let errorMessage = 'Failed to exit.';
+    if (error.response?.data) {
+      errorMessage = error.response.data.error?.message || JSON.stringify(error.response.data);
+    } else if (error.message) {
+      errorMessage = error.message;
+    }
+
     console.error("Error in /api/exit:", error);
-    return NextResponse.json({ error: "Failed to exit." }, { status: 500 });
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }

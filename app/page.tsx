@@ -32,14 +32,13 @@ export default function Page() {
   const [loading, setLoading] = useState(false);
   const [fullname, setFullname] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  // Set dark mode as the default for new visitors
+  // Default to dark mode
   const [theme, setTheme] = useState<'light' | 'dark'>('dark');
 
-  // On component mount, check for saved theme and apply it; if not found, remain on 'dark'
+  // On component mount, check for saved theme
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
-      // Use saved preference
       setTheme(savedTheme === 'dark' ? 'dark' : 'light');
       if (savedTheme === 'dark') {
         document.documentElement.classList.add('dark');
@@ -47,7 +46,6 @@ export default function Page() {
         document.documentElement.classList.remove('dark');
       }
     } else {
-      // No saved preference, default to dark
       document.documentElement.classList.add('dark');
       localStorage.setItem('theme', 'dark');
     }
@@ -83,6 +81,24 @@ export default function Page() {
     localStorage.setItem('theme', newTheme);
   }
 
+  /**
+   * -- HELPER: Safely parse JSON from non-OK responses --
+   *   This is a helper to show the detailed error message
+   *   from the server if it exists.
+   */
+  async function handleNonOkResponse(res: Response) {
+    let serverErrorMessage = 'An unknown error occurred.';
+    try {
+      const errorJson = await res.json();
+      if (errorJson?.error) {
+        serverErrorMessage = errorJson.error;
+      }
+    } catch (parseError) {
+      console.error('Could not parse error response as JSON:', parseError);
+    }
+    return serverErrorMessage;
+  }
+
   async function handleStart(e: React.FormEvent) {
     e.preventDefault();
     setErrorMessage('');
@@ -93,13 +109,15 @@ export default function Page() {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({ fullname })
       });
+
       if (!res.ok) {
-        const text = await res.text();
-        console.error('Error starting:', text);
-        setErrorMessage('Error starting the process.');
+        const serverErrorMessage = await handleNonOkResponse(res);
+        console.error('Error starting:', serverErrorMessage);
+        setErrorMessage(serverErrorMessage);
         setLoading(false);
         return;
       }
+
       const json: ResponseType & {
         thread_id?: string;
         questions_asked?: number;
@@ -126,7 +144,8 @@ export default function Page() {
     } catch (error) {
       console.error('Error in handleStart:', error);
       setLoading(false);
-      setErrorMessage('An error occurred while starting.');
+      // Show actual error message
+      setErrorMessage((error as Error).message || 'An error occurred while starting.');
     }
   }
 
@@ -156,12 +175,13 @@ export default function Page() {
       });
 
       if (!res.ok) {
-        const text = await res.text();
-        console.error('Error handling action:', text);
-        setErrorMessage('Error processing action.');
+        const serverErrorMessage = await handleNonOkResponse(res);
+        console.error('Error handling action:', serverErrorMessage);
+        setErrorMessage(serverErrorMessage);
         setLoading(false);
         return;
       }
+
       const json: ResponseType & {
         language?: string;
         questions_asked?: number;
@@ -182,7 +202,7 @@ export default function Page() {
     } catch (error) {
       console.error('Error in handleAction:', error);
       setLoading(false);
-      setErrorMessage('An error occurred while processing action.');
+      setErrorMessage((error as Error).message || 'An error occurred while processing action.');
     }
   }
 
@@ -190,7 +210,6 @@ export default function Page() {
     setErrorMessage('');
     setLoading(true);
     try {
-      // Pass currentLanguage so server can respond in the correct language
       const thread_id = localStorage.getItem('thread_id');
       const res = await fetch('/api/confirm', {
         method: 'POST',
@@ -201,13 +220,15 @@ export default function Page() {
           language: currentLanguage
         })
       });
+
       if (!res.ok) {
-        const text = await res.text();
-        console.error('Error confirming yes:', text);
-        setErrorMessage('Error confirming identification.');
+        const serverErrorMessage = await handleNonOkResponse(res);
+        console.error('Error confirming yes:', serverErrorMessage);
+        setErrorMessage(serverErrorMessage);
         setLoading(false);
         return;
       }
+
       const json: ResponseType & { language?: string } = await res.json();
       setLoading(false);
       handleResponse(json);
@@ -220,7 +241,7 @@ export default function Page() {
     } catch (error) {
       console.error('Error in handleConfirmYes:', error);
       setLoading(false);
-      setErrorMessage('An error occurred during confirmation.');
+      setErrorMessage((error as Error).message || 'An error occurred during confirmation.');
     }
   }
 
@@ -238,13 +259,15 @@ export default function Page() {
           language: currentLanguage
         })
       });
+
       if (!res.ok) {
-        const text = await res.text();
-        console.error('Error confirming no:', text);
-        setErrorMessage('Error confirming denial.');
+        const serverErrorMessage = await handleNonOkResponse(res);
+        console.error('Error confirming no:', serverErrorMessage);
+        setErrorMessage(serverErrorMessage);
         setLoading(false);
         return;
       }
+
       const json: ResponseType & { language?: string } = await res.json();
       setLoading(false);
       handleResponse(json);
@@ -257,7 +280,7 @@ export default function Page() {
     } catch (error) {
       console.error('Error in handleConfirmNo:', error);
       setLoading(false);
-      setErrorMessage('An error occurred during confirmation.');
+      setErrorMessage((error as Error).message || 'An error occurred during confirmation.');
     }
   }
 
@@ -266,12 +289,11 @@ export default function Page() {
     setLoading(true);
     try {
       const thread_id = localStorage.getItem('thread_id');
-      const res = await fetch('/api/exit?thread_id=' + encodeURIComponent(thread_id || '') + 
-        '&language=' + encodeURIComponent(currentLanguage));
+      const res = await fetch(`/api/exit?thread_id=${encodeURIComponent(thread_id || '')}&language=${encodeURIComponent(currentLanguage)}`);
       if (!res.ok) {
-        const text = await res.text();
-        console.error('Error exiting:', text);
-        setErrorMessage('Error exiting.');
+        const serverErrorMessage = await handleNonOkResponse(res);
+        console.error('Error exiting:', serverErrorMessage);
+        setErrorMessage(serverErrorMessage);
         setLoading(false);
         return;
       }
@@ -281,12 +303,12 @@ export default function Page() {
     } catch (error) {
       console.error('Error in handleNoDone:', error);
       setLoading(false);
-      setErrorMessage('An error occurred while exiting.');
+      setErrorMessage((error as Error).message || 'An error occurred while exiting.');
     }
   }
 
   function handleYesDone() {
-    // Just redirect to root. Or do something else if you wish.
+    // Redirect to root or do something else
     window.location.href = '/';
   }
 

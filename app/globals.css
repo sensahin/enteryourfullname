@@ -134,7 +134,8 @@ p {
 .question-text {
   margin-bottom: var(--spacing-medium);
   color: var(--text-color);
-  line-height: 1.5;
+  line-height: 1.4;
+  font-weight: 500;
   overflow-wrap: break-word;
 }
 
@@ -242,7 +243,7 @@ p {
   padding: 7px 0;
   background: transparent;
   transition: border-color 0.2s;
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
 .form__field::placeholder {
@@ -293,12 +294,10 @@ p {
 }
 
 @media (max-width: 600px) {
-
   .primary-button,
   .secondary-button {
     width: 100%;
   }
-
   .question-text {
     white-space: normal;
   }

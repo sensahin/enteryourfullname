@@ -14,7 +14,14 @@ export async function POST(request: Request) {
       language
     });
   } catch (error: any) {
+    let errorMessage = 'Failed to confirm.';
+    if (error.response?.data) {
+      errorMessage = error.response.data.error?.message || JSON.stringify(error.response.data);
+    } else if (error.message) {
+      errorMessage = error.message;
+    }
+
     console.error("Error in /api/confirm:", error);
-    return NextResponse.json({ error: "Failed to confirm." }, { status: 500 });
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }

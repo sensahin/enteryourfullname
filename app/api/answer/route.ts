@@ -12,7 +12,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "No thread_id provided." }, { status: 400 });
     }
 
-    // Send the user's action to the thread
+    // Potentially faulty calls
     await add_message_to_thread(thread_id, "user", action);
     const assistantResponse = await run_assistant(thread_id);
 
@@ -20,18 +20,24 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "No assistant response." }, { status: 500 });
     }
 
-    // If the assistant wants to ask a new question, increment
     if (assistantResponse.type === "question") {
       questions_asked += 1;
     }
 
-    // Return updated data
     return NextResponse.json({
       ...assistantResponse,
       questions_asked
     });
   } catch (error: any) {
+    // Attempt to extract a more specific message
+    let errorMessage = 'Failed to get a response.';
+    if (error.response?.data) {
+      errorMessage = error.response.data.error?.message || JSON.stringify(error.response.data);
+    } else if (error.message) {
+      errorMessage = error.message;
+    }
+
     console.error("Error in /api/answer:", error);
-    return NextResponse.json({ error: "Failed to get a response." }, { status: 500 });
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
