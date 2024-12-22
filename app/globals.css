@@ -65,10 +65,11 @@ body {
 main {
   flex: 1;
   display: flex;
-  align-items: center;
   justify-content: center;
   padding: 1rem;
   box-sizing: border-box;
+  align-items: flex-start; /* Instead of 'center' */
+  padding-top: 4rem;       /* Or whatever vertical offset you like */
 }
 
 .card {
@@ -262,11 +263,5 @@ p {
 
   .primary-button, .secondary-button {
     width: 100%;
-  }
-}
-@media (min-width: 768px) {
-  main {
-    align-items: flex-start; /* Instead of 'center' */
-    padding-top: 4rem;       /* Or whatever vertical offset you like */
   }
 }
