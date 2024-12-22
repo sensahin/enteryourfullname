@@ -275,6 +275,7 @@ p {
   border-radius: var(--border-radius);
   box-shadow: var(--card-shadow);
   box-sizing: border-box;
+  line-height: 1.5;
 }
 @media (max-width: 600px) {
 
