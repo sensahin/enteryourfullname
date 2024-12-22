@@ -270,7 +270,7 @@ p {
 .reveal-card {
   background: var(--card-background);
   width: 100%;
-  max-width: var(--max-width);
+  max-width: 50%;
   padding: 2rem 2rem 4rem 2rem;
   border-radius: var(--border-radius);
   box-shadow: var(--card-shadow);
