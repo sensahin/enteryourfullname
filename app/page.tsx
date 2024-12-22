@@ -379,7 +379,7 @@ export default function Page() {
         )}
 
         {!loading && !errorMessage && viewState === 'identify' && (
-          <div className="card">
+          <div className="reveal-card">
             <ReactMarkdown className="question-text">{identifyText}</ReactMarkdown>
             <div className="button-group">
               <button onClick={handleConfirmYes} className="primary-button">{t.yes}</button>

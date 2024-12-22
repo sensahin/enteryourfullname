@@ -100,13 +100,9 @@ p {
 }
 
 .question-text {
-  font-size: 1.1rem;
-  font-weight: 500;
   margin-bottom: 1.5rem;
   color: var(--text-color);
 }
-
-
 
 .start-form {
   display: flex;
@@ -270,8 +266,18 @@ p {
 .form__field:invalid {
   box-shadow: none;
 }
-
+/* A simple override class to left-align content */
+.reveal-card {
+  background: var(--card-background);
+  width: 100%;
+  max-width: var(--max-width);
+  padding: 2rem 2rem 4rem 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--card-shadow);
+  box-sizing: border-box;
+}
 @media (max-width: 600px) {
+
   .primary-button,
   .secondary-button {
     width: 100%;
