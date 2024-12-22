@@ -71,6 +71,9 @@ main {
   padding: 1rem;
   box-sizing: border-box;
   align-items: flex-start;
+  /* Instead of 'center' */
+  padding-top: 4rem;
+  /* Or whatever vertical offset you like */
 }
 
 .card {
