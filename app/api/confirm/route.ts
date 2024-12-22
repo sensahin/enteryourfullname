@@ -1,21 +1,17 @@
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
 
 export async function POST(request: Request) {
   try {
-    await request.json(); 
-    // confirm value no longer needed.
+    const body = await request.json();
+    // If none provided, fallback to 'en'
+    const language = body.language || 'en';
 
-    const cookieStore = await cookies();
-
-    const language = cookieStore.get('language')?.value || 'en';
-
-    // Return done state directly.
+    // Return done state in the same language
     return NextResponse.json({
       type: "done",
       question: null,
       response: null,
-      language: language
+      language
     });
   } catch (error: any) {
     console.error("Error in /api/confirm:", error);

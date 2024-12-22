@@ -1,19 +1,18 @@
-// app/api/answer/route.ts
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
 import { add_message_to_thread, run_assistant } from '@/lib/apiHelpers';
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
     const action = body.action;
+    const thread_id = body.thread_id;
+    let questions_asked = body.questions_asked || 0;
 
-    const cookieStore = await cookies();
-    const thread_id = cookieStore.get('thread_id')?.value;
     if (!thread_id) {
-      return NextResponse.json({ error: "No thread_id found." }, { status: 400 });
+      return NextResponse.json({ error: "No thread_id provided." }, { status: 400 });
     }
 
+    // Send the user's action to the thread
     await add_message_to_thread(thread_id, "user", action);
     const assistantResponse = await run_assistant(thread_id);
 
@@ -21,18 +20,16 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "No assistant response." }, { status: 500 });
     }
 
-    const response = NextResponse.json(assistantResponse);
-
-    // If response is question, increment questions_asked
+    // If the assistant wants to ask a new question, increment
     if (assistantResponse.type === "question") {
-      const current = parseInt(cookieStore.get('questions_asked')?.value || '0', 10) + 1;
-      response.cookies.set('questions_asked', current.toString());
+      questions_asked += 1;
     }
 
-    const language = assistantResponse.language || cookieStore.get('language')?.value || "en";
-    response.cookies.set('language', language);
-
-    return response;
+    // Return updated data
+    return NextResponse.json({
+      ...assistantResponse,
+      questions_asked
+    });
   } catch (error: any) {
     console.error("Error in /api/answer:", error);
     return NextResponse.json({ error: "Failed to get a response." }, { status: 500 });

@@ -11,7 +11,7 @@ export async function POST(request: Request) {
     const thread = await create_thread([
       {
         role: "user",
-        content: "Below are some background details:\n" + search_results
+        content: "Below are some background details:\n" + (await search_results)
       },
       {
         role: "user",
@@ -20,22 +20,25 @@ export async function POST(request: Request) {
     ]);
 
     const thread_id = thread.id;
+
     const assistantResponse = await run_assistant(thread_id);
-    const language = assistantResponse?.language || 'en';
 
     if (!assistantResponse) {
       return NextResponse.json({ error: "No assistant response." }, { status: 500 });
     }
 
-    const response = NextResponse.json(assistantResponse);
+    const language = assistantResponse?.language || 'en';
 
-    // Set cookies on response
-    response.cookies.set('thread_id', thread_id);
-    response.cookies.set('questions_asked', '1');
-    response.cookies.set('max_questions', '10');
-    response.cookies.set('language', language);
+    // Return the data we want to store in localStorage
+    const responseData = {
+      ...assistantResponse,
+      thread_id,        // so client can store it
+      questions_asked: 1,  // start with 1
+      max_questions: '10', // sample
+      language
+    };
 
-    return response;
+    return NextResponse.json(responseData);
   } catch (error: any) {
     console.error("Error in /api/start:", error);
     return NextResponse.json({ error: "Failed to start." }, { status: 500 });

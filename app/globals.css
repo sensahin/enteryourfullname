@@ -6,7 +6,7 @@
   --background: #f7f7f7;
   --text-color: #333333;
   --card-background: #ffffff;
-  --card-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  --card-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   --border-radius: 8px;
   --max-width: 400px;
 }
@@ -19,10 +19,11 @@
   --background: #121212;
   --text-color: #dddddd;
   --card-background: #1e1e1e;
-  --card-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  --card-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   background: var(--background);
@@ -56,10 +57,11 @@ body {
 }
 
 .theme-toggle:hover {
-  background: rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.1);
 }
+
 :root.dark .theme-toggle:hover {
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 main {
@@ -68,8 +70,7 @@ main {
   justify-content: center;
   padding: 1rem;
   box-sizing: border-box;
-  align-items: flex-start; /* Instead of 'center' */
-  padding-top: 4rem;       /* Or whatever vertical offset you like */
+  align-items: flex-start;
 }
 
 .card {
@@ -117,7 +118,8 @@ p {
   justify-content: center;
 }
 
-.primary-button, .secondary-button {
+.primary-button,
+.secondary-button {
   border: none;
   border-radius: var(--border-radius);
   padding: 0.75rem 1.5rem;
@@ -145,6 +147,7 @@ p {
   color: var(--text-color);
   border: 1px solid #cccccc;
 }
+
 :root.dark .secondary-button {
   background: #2a2a2a;
   border-color: #444444;
@@ -153,6 +156,7 @@ p {
 .secondary-button:hover {
   background: #f0f0f0;
 }
+
 :root.dark .secondary-button:hover {
   background: #3a3a3a;
 }
@@ -173,8 +177,13 @@ p {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .error {
@@ -187,81 +196,81 @@ p {
   text-align: center;
   margin: 1rem auto;
 }
+
 /* =====================================
    Floating-label input style 
    (put this at the bottom of globals.css)
    ===================================== */
-   .form__group {
-    position: relative;
-    padding: 15px 0 0;
-    margin-top: 10px;
-    width: 100%; /* So it spans the width of the card */
-  }
-  
-  .form__field {
-    font-family: inherit;
-    width: 100%;
-    border: none;
-    border-bottom: 2px solid var(--text-color);
-    outline: 0;
-    font-size: 1.3rem;
-    color: var(--text-color);
-    padding: 7px 0;
-    background: transparent;
-    transition: border-color 0.2s;
-  }
-  
-  /* Hide the placeholder text visually, so it doesn't conflict with the floating label */
-  .form__field::placeholder {
-    color: transparent;
-  }
-  
-  /* When the placeholder is shown (meaning the user hasn't typed yet), 
+.form__group {
+  position: relative;
+  padding: 15px 0 0;
+  margin-top: 10px;
+  width: 100%;
+  /* So it spans the width of the card */
+}
+
+.form__field {
+  font-family: inherit;
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid var(--text-color);
+  outline: 0;
+  font-size: 1.3rem;
+  color: var(--text-color);
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+}
+
+/* Hide the placeholder text visually, so it doesn't conflict with the floating label */
+.form__field::placeholder {
+  color: transparent;
+}
+
+/* When the placeholder is shown (meaning the user hasn't typed yet), 
      we move the label to appear as if it's inside the input. */
-  .form__field:placeholder-shown ~ .form__label {
-    font-size: 1.3rem;
-    cursor: text;
-    top: 20px;
-  }
-  
-  /* The label sits absolutely on top of the input */
-  .form__label {
-    position: absolute;
+.form__field:placeholder-shown~.form__label {
+  cursor: text;
+  top: 20px;
+}
+
+/* The label sits absolutely on top of the input */
+.form__label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: var(--text-color);
+}
+
+/* When input is focused, "lift" the label to the top and style the border */
+.form__field:focus {
+  border-bottom-width: 3px;
+  border-image: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+  border-image-slice: 1;
+
+  /* The tilde (~) here means "target the next sibling .form__label" */
+  ~.form__label {
     top: 0;
-    display: block;
-    transition: 0.2s;
     font-size: 1rem;
-    color: var(--text-color);
-  }
-  
-  /* When input is focused, "lift" the label to the top and style the border */
-  .form__field:focus {
-    border-bottom-width: 3px;
-    border-image: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-    border-image-slice: 1;
-  
-    /* The tilde (~) here means "target the next sibling .form__label" */
-    ~ .form__label {
-      top: 0;
-      font-size: 1rem;
-      color: var(--primary-color);
-      font-weight: 700;
-    }
-    padding-bottom: 6px;
+    color: var(--primary-color);
     font-weight: 700;
   }
-  
-  /* Remove any default invalid shadows in some browsers */
-  .form__field:required,
-  .form__field:invalid {
-    box-shadow: none;
-  }
-@media (max-width: 600px) {
-  .card {
-    padding: 1.5rem 1rem;
-  }
 
-  .primary-button, .secondary-button {
+  padding-bottom: 6px;
+  font-weight: 700;
+}
+
+/* Remove any default invalid shadows in some browsers */
+.form__field:required,
+.form__field:invalid {
+  box-shadow: none;
+}
+
+@media (max-width: 600px) {
+  .primary-button,
+  .secondary-button {
     width: 100%;
   }
 }

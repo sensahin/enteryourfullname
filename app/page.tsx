@@ -100,8 +100,28 @@ export default function Page() {
         setLoading(false);
         return;
       }
-      const json: ResponseType = await res.json();
+      const json: ResponseType & {
+        thread_id?: string;
+        questions_asked?: number;
+        max_questions?: string;
+      } = await res.json();
       setLoading(false);
+
+      if (json.error) {
+        setErrorMessage(json.error);
+        return;
+      }
+
+      // Save needed data to localStorage
+      if (json.thread_id) localStorage.setItem('thread_id', json.thread_id);
+      if (typeof json.questions_asked === 'number') {
+        localStorage.setItem('questions_asked', json.questions_asked.toString());
+      }
+      if (json.max_questions) {
+        localStorage.setItem('max_questions', json.max_questions);
+      }
+      localStorage.setItem('language', json.language);
+
       handleResponse(json);
     } catch (error) {
       console.error('Error in handleStart:', error);
@@ -122,11 +142,19 @@ export default function Page() {
     setErrorMessage('');
     setLoading(true);
     try {
+      const thread_id = localStorage.getItem('thread_id');
+      const questions_asked = localStorage.getItem('questions_asked');
+
       const res = await fetch('/api/answer', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({action})
+        body: JSON.stringify({
+          action,
+          thread_id,
+          questions_asked: questions_asked ? parseInt(questions_asked, 10) : 0
+        }),
       });
+
       if (!res.ok) {
         const text = await res.text();
         console.error('Error handling action:', text);
@@ -134,9 +162,23 @@ export default function Page() {
         setLoading(false);
         return;
       }
-      const json: ResponseType = await res.json();
+      const json: ResponseType & {
+        language?: string;
+        questions_asked?: number;
+      } = await res.json();
       setLoading(false);
+
       handleResponse(json);
+
+      // If there's new questions_asked or language, update localStorage
+      if (typeof json.questions_asked === 'number') {
+        localStorage.setItem('questions_asked', json.questions_asked.toString());
+      }
+      if (json.language) {
+        localStorage.setItem('language', json.language);
+        setCurrentLanguage(json.language);
+      }
+
     } catch (error) {
       console.error('Error in handleAction:', error);
       setLoading(false);
@@ -148,10 +190,16 @@ export default function Page() {
     setErrorMessage('');
     setLoading(true);
     try {
+      // Pass currentLanguage so server can respond in the correct language
+      const thread_id = localStorage.getItem('thread_id');
       const res = await fetch('/api/confirm', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ confirm: translations[currentLanguage].yes.toLowerCase() })
+        body: JSON.stringify({ 
+          confirm: translations[currentLanguage].yes.toLowerCase(),
+          thread_id,
+          language: currentLanguage
+        })
       });
       if (!res.ok) {
         const text = await res.text();
@@ -160,9 +208,15 @@ export default function Page() {
         setLoading(false);
         return;
       }
-      const json: ResponseType = await res.json();
+      const json: ResponseType & { language?: string } = await res.json();
       setLoading(false);
       handleResponse(json);
+
+      if (json.language) {
+        localStorage.setItem('language', json.language);
+        setCurrentLanguage(json.language);
+      }
+
     } catch (error) {
       console.error('Error in handleConfirmYes:', error);
       setLoading(false);
@@ -174,10 +228,15 @@ export default function Page() {
     setErrorMessage('');
     setLoading(true);
     try {
+      const thread_id = localStorage.getItem('thread_id');
       const res = await fetch('/api/confirm', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ confirm: translations[currentLanguage].no.toLowerCase() })
+        body: JSON.stringify({ 
+          confirm: translations[currentLanguage].no.toLowerCase(),
+          thread_id,
+          language: currentLanguage
+        })
       });
       if (!res.ok) {
         const text = await res.text();
@@ -186,9 +245,15 @@ export default function Page() {
         setLoading(false);
         return;
       }
-      const json: ResponseType = await res.json();
+      const json: ResponseType & { language?: string } = await res.json();
       setLoading(false);
       handleResponse(json);
+
+      if (json.language) {
+        localStorage.setItem('language', json.language);
+        setCurrentLanguage(json.language);
+      }
+
     } catch (error) {
       console.error('Error in handleConfirmNo:', error);
       setLoading(false);
@@ -200,7 +265,9 @@ export default function Page() {
     setErrorMessage('');
     setLoading(true);
     try {
-      const res = await fetch('/api/exit');
+      const thread_id = localStorage.getItem('thread_id');
+      const res = await fetch('/api/exit?thread_id=' + encodeURIComponent(thread_id || '') + 
+        '&language=' + encodeURIComponent(currentLanguage));
       if (!res.ok) {
         const text = await res.text();
         console.error('Error exiting:', text);
@@ -219,6 +286,7 @@ export default function Page() {
   }
 
   function handleYesDone() {
+    // Just redirect to root. Or do something else if you wish.
     window.location.href = '/';
   }
 
@@ -228,6 +296,8 @@ export default function Page() {
       return;
     }
     const { type, question, response: identifyResponse, language } = response;
+
+    // Update current language from server's response
     setCurrentLanguage(language || 'en');
     if (!translations[language || 'en']) {
       setCurrentLanguage('en');
@@ -254,48 +324,49 @@ export default function Page() {
 
   return (
     <>
-    <header className="header">
-      <button 
-        onClick={toggleTheme} 
-        className="theme-toggle" 
-        aria-label="Toggle dark mode"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 384 512"
-          width="24"   /* set width/height to your preference */
-          height="24"
-          fill="currentColor"
+      <header className="header">
+        <button 
+          onClick={toggleTheme} 
+          className="theme-toggle" 
+          aria-label="Toggle dark mode"
         >
-          <path d="M223.5 32C100 32 0 132.3 0 256S100 480 223.5 480c60.6 0 115.5-24.2 155.8-63.4c5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6c-96.9 0-175.5-78.8-175.5-176c0-65.8 36-123.1 89.3-153.3c6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z"/>
-        </svg>
-      </button>
-    </header>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 384 512"
+            width="24"
+            height="24"
+            fill="currentColor"
+          >
+            <path d="M223.5 32C100 32 0 132.3 0 256S100 480 223.5 480c60.6 0 115.5-24.2 155.8-63.4c5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6c-96.9 0-175.5-78.8-175.5-176c0-65.8 36-123.1 89.3-153.3c6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z"/>
+          </svg>
+        </button>
+      </header>
+
       <main>
         {loading && <div className="spinner"></div>}
         {errorMessage && <div className="error">{errorMessage}</div>}
         
         {!loading && !errorMessage && viewState === 'start' && (
-        <div className="card">
-          <form onSubmit={handleStart} className="start-form">
-            <div className="form__group field">
-              <input
-                type="text"
-                className="form__field"
-                placeholder="Enter your full name"
-                name="fullname"
-                id="fullnameInput"
-                value={fullname}
-                onChange={(e) => setFullname(e.target.value)}
-                required
-              />
-              <label htmlFor="fullnameInput" className="form__label">
-               Enter your full name
-              </label>
-            </div>
-          </form>
-        </div>
-      )}
+          <div className="card">
+            <form onSubmit={handleStart} className="start-form">
+              <div className="form__group field">
+                <input
+                  type="text"
+                  className="form__field"
+                  placeholder="Enter your full name"
+                  name="fullname"
+                  id="fullnameInput"
+                  value={fullname}
+                  onChange={(e) => setFullname(e.target.value)}
+                  required
+                />
+                <label htmlFor="fullnameInput" className="form__label">
+                  Enter your full name
+                </label>
+              </div>
+            </form>
+          </div>
+        )}
 
         {!loading && !errorMessage && viewState === 'question' && (
           <div className="card">
