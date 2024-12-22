@@ -1,9 +1,5 @@
-/* =====================================
-   Root Variables
-   ===================================== */
 :root {
-  /* Default (light mode) variables,
-       but we'll *start* in dark mode if no preference is found. */
+  /* Default (light mode) variables, but we'll *start* in dark mode if no preference is found. */
   --primary-color: #4a90e2;
   --secondary-color: #7b4397;
   --error-color: #e74c3c;
@@ -17,7 +13,6 @@
   --border-radius: 8px;
   --max-width: 500px;
 
-  /* Additional optional variables for spacing & line-height */
   --line-height-base: 1.6;
   --spacing-small: 0.5rem;
   --spacing-medium: 1rem;
@@ -37,9 +32,6 @@
   --card-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
-/* =====================================
-     Global Base Styles
-     ===================================== */
 html,
 body {
   margin: 0;
@@ -57,9 +49,6 @@ body {
   min-height: 100vh;
 }
 
-/* =====================================
-     Header & Theme Toggle
-     ===================================== */
 .header {
   width: 100%;
   text-align: right;
@@ -86,9 +75,6 @@ body {
   background: rgba(255, 255, 255, 0.1);
 }
 
-/* =====================================
-     Main & Card Layout
-     ===================================== */
 main {
   flex: 1;
   display: flex;
@@ -96,10 +82,8 @@ main {
   box-sizing: border-box;
   padding: var(--spacing-large) var(--spacing-medium) var(--spacing-medium);
   align-items: flex-start;
-  /* Instead of 'center', we offset from top */
 }
 
-/* Generic Card */
 .card {
   background: var(--card-background);
   width: 100%;
@@ -110,27 +94,20 @@ main {
   box-sizing: border-box;
   text-align: center;
   margin: 0 auto;
-  /* center the card horizontally if smaller than screen width */
 }
 
-/* A reveal card might hold more content, so let’s give it a bigger max-width. */
 .reveal-card {
   background: var(--card-background);
   width: 100%;
   max-width: 600px;
-  /* fixed max-width for reveal card */
   padding: var(--spacing-large);
   border-radius: var(--border-radius);
   box-shadow: var(--card-shadow);
   box-sizing: border-box;
   margin: 0 auto var(--spacing-medium);
-  /* some bottom spacing */
   line-height: var(--line-height-base);
 }
 
-/* =====================================
-     Typography & Spacing
-     ===================================== */
 h1,
 h2,
 h3,
@@ -147,7 +124,6 @@ h1 {
   font-size: 1.75rem;
 }
 
-/* Paragraphs */
 p {
   margin-top: 0;
   margin-bottom: var(--spacing-medium);
@@ -155,24 +131,13 @@ p {
   line-height: var(--line-height-base);
 }
 
-/* Question text — typically short, 
-     but ensure good spacing if it does wrap */
 .question-text {
   margin-bottom: var(--spacing-medium);
   color: var(--text-color);
-  line-height: 1.4;
-  font-weight: 500;
-  /* Let it wrap naturally. */
+  line-height: 1.5;
   overflow-wrap: break-word;
-  /* or word-wrap: break-word; */
 }
 
-/* If you'd rather let them wrap normally (and not truncate),
-     remove the white-space, overflow, and text-overflow from above. */
-
-/* =====================================
-     Buttons
-     ===================================== */
 .button-group {
   display: flex;
   flex-direction: row;
@@ -228,9 +193,6 @@ p {
   transform: scale(0.98);
 }
 
-/* =====================================
-     Spinner Styles
-     ===================================== */
 .spinner {
   width: 40px;
   height: 40px;
@@ -251,9 +213,6 @@ p {
   }
 }
 
-/* =====================================
-     Error Banner
-     ===================================== */
 .error {
   background: var(--error-color);
   color: #ffffff;
@@ -265,15 +224,11 @@ p {
   margin: var(--spacing-medium) auto;
 }
 
-/* =====================================
-     Floating-Label Input Styles
-     ===================================== */
 .form__group {
   position: relative;
   padding: 15px 0 0;
   margin-top: var(--spacing-small);
   width: 100%;
-  /* So it spans the width of the card */
 }
 
 .form__field {
@@ -287,7 +242,7 @@ p {
   padding: 7px 0;
   background: transparent;
   transition: border-color 0.2s;
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
 .form__field::placeholder {
@@ -325,15 +280,11 @@ p {
   font-weight: 700;
 }
 
-/* Remove any default invalid shadows in some browsers */
 .form__field:required,
 .form__field:invalid {
   box-shadow: none;
 }
 
-/* =====================================
-     Forms
-     ===================================== */
 .start-form {
   display: flex;
   flex-direction: column;
@@ -341,9 +292,6 @@ p {
   margin-bottom: var(--spacing-medium);
 }
 
-/* =====================================
-     Responsive Adjustments
-     ===================================== */
 @media (max-width: 600px) {
 
   .primary-button,
@@ -353,7 +301,5 @@ p {
 
   .question-text {
     white-space: normal;
-    /* Let questions wrap on small screens, 
-                              otherwise ellipsis might hide all text */
   }
 }
