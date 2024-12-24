@@ -25,6 +25,16 @@ type Translations = {
   [languageCode: string]: TranslationData;
 };
 
+// Fisher-Yates shuffle
+function shuffleArray<T>(arr: T[]): T[] {
+  const array = [...arr];
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
 export default function Page() {
   const [translations, setTranslations] = useState<Translations>({});
   const [currentLanguage, setCurrentLanguage] = useState('en');
@@ -38,12 +48,11 @@ export default function Page() {
   const [errorMessage, setErrorMessage] = useState('');
   const [theme, setTheme] = useState<'light' | 'dark'>('dark');
 
-  // Images from the search (we display them while loading)
+  // Images for the "scanning" effect
   const [images, setImages] = useState<string[]>([]);
-  // Current index for the scanning effect
   const [scanIndex, setScanIndex] = useState(0);
 
-  // On component mount, check for saved theme
+  // On mount, check for saved theme
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
@@ -78,9 +87,14 @@ export default function Page() {
     })();
   }, []);
 
-  // Scanning effect interval (carousel), only relevant if we have images
+  /**
+   * Whenever `images` changes, reset `scanIndex` to 0
+   * and start the scanning carousel if we have images.
+   */
   useEffect(() => {
+    setScanIndex(0);
     if (images.length === 0) return;
+
     const interval = setInterval(() => {
       setScanIndex((prev) => (prev + 1) % images.length);
     }, 1500);
@@ -157,9 +171,10 @@ export default function Page() {
       }
       localStorage.setItem('language', json.language);
 
-      // Store images (we'll show them while loading next times)
+      // Remove duplicates & shuffle
       if (json.images && json.images.length > 0) {
-        setImages(json.images);
+        const uniqueImages = Array.from(new Set(json.images));
+        setImages(shuffleArray(uniqueImages));
       } else {
         setImages([]);
       }
@@ -376,18 +391,25 @@ export default function Page() {
   // =========== Rendering the scanning carousel ===========
 
   function renderScanner() {
-    // Show the "scanning" effect with images
+    // If we have no images, fallback to spinner
     if (images.length === 0) {
-      // If no images, fallback to spinner
       return <div className="spinner"></div>;
     }
     return (
       <div className="scanner-container">
         <img
-          key={scanIndex}
+          key={scanIndex} 
           src={images[scanIndex]}
           alt="Scanning"
           className="scanner-image"
+          onError={() => {
+            // Remove the broken image from the array
+            setImages((prev) => {
+              if (prev.length === 0) return [];
+              const filtered = prev.filter((_, idx) => idx !== scanIndex);
+              return filtered;
+            });
+          }}
         />
       </div>
     );
@@ -413,16 +435,13 @@ export default function Page() {
         {errorMessage && <div className="error">{errorMessage}</div>}
 
         {/**
-         * If we're "loading", show images (scanner) OR spinner if no images.
-         * Otherwise, show the normal UI (question, identify, done, exit).
+         * Show the scanner only if loading during the "question" step.
+         * Otherwise, show a spinner if loading in other states.
          */}
-
         {loading ? (
-          // If we are loading *and* in one of these states, show the scanner
-          (viewState === 'question') ? (
+          viewState === 'question' ? (
             renderScanner()
           ) : (
-            // Otherwise (e.g. loading during 'done' or 'exit'), just show a simple spinner or nothing
             <div className="spinner" />
           )
         ) : (
