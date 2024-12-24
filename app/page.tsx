@@ -418,7 +418,13 @@ export default function Page() {
          */}
 
         {loading ? (
-          renderScanner()
+          // If we are loading *and* in one of these states, show the scanner
+          (viewState === 'question') ? (
+            renderScanner()
+          ) : (
+            // Otherwise (e.g. loading during 'done' or 'exit'), just show a simple spinner or nothing
+            <div className="spinner" />
+          )
         ) : (
           <>
             {/* START */}

@@ -24,7 +24,7 @@ export async function POST(request: Request) {
       },
       {
         role: "user",
-        content: `Please start by asking a yes/no question to identify which one of these matches me. My name: ${fullname}`
+        content: `${fullname}`
       }
     ]);
 
