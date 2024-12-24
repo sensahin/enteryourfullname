@@ -34,8 +34,12 @@ export default function Page() {
   const [loading, setLoading] = useState(false);
   const [fullname, setFullname] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  // Default to dark mode
   const [theme, setTheme] = useState<'light' | 'dark'>('dark');
+
+  // Images from the search
+  const [images, setImages] = useState<string[]>([]);
+  // Current index for the scanning effect
+  const [scanIndex, setScanIndex] = useState(0);
 
   // On component mount, check for saved theme
   useEffect(() => {
@@ -72,6 +76,17 @@ export default function Page() {
     })();
   }, []);
 
+  // Scanning effect interval
+  useEffect(() => {
+    if (!loading || images.length === 0) return;
+
+    const interval = setInterval(() => {
+      setScanIndex((prev) => (prev + 1) % images.length);
+    }, 1500);
+
+    return () => clearInterval(interval);
+  }, [loading, images]);
+
   function toggleTheme() {
     const newTheme = theme === 'dark' ? 'light' : 'dark';
     setTheme(newTheme);
@@ -83,11 +98,7 @@ export default function Page() {
     localStorage.setItem('theme', newTheme);
   }
 
-  /**
-   * -- HELPER: Safely parse JSON from non-OK responses --
-   *   This is a helper to show the detailed error message
-   *   from the server if it exists.
-   */
+  // Helper to parse server error JSON
   async function handleNonOkResponse(res: Response) {
     let serverErrorMessage = 'An unknown error occurred.';
     try {
@@ -124,6 +135,7 @@ export default function Page() {
         thread_id?: string;
         questions_asked?: number;
         max_questions?: string;
+        images?: string[];
       } = await res.json();
       setLoading(false);
 
@@ -142,11 +154,17 @@ export default function Page() {
       }
       localStorage.setItem('language', json.language);
 
+      // Store images
+      if (json.images && json.images.length > 0) {
+        setImages(json.images);
+      } else {
+        setImages([]);
+      }
+
       handleResponse(json);
     } catch (error) {
       console.error('Error in handleStart:', error);
       setLoading(false);
-      // Show actual error message
       setErrorMessage((error as Error).message || 'An error occurred while starting.');
     }
   }
@@ -321,7 +339,6 @@ export default function Page() {
     }
     const { type, question, response: identifyResponse, language } = response;
 
-    // Update current language from server's response
     setCurrentLanguage(language || 'en');
     if (!translations[language || 'en']) {
       setCurrentLanguage('en');
@@ -340,26 +357,60 @@ export default function Page() {
     }
   }
 
-  if (!translations || Object.keys(translations).length === 0) {
-    return <div>Loading translations...</div>;
-  }
+  // We'll track whether the current image is loaded
+  // and display "Scanning..." if it's not loaded or fails
+  const [imageLoaded, setImageLoaded] = useState(true);
+
+  // Function to render scanning effect
+  const renderScanner = () => {
+    if (!loading || images.length === 0) return null;
+
+    // Show "Scanning..." text if there's no valid image yet
+    return (
+      <div className="scanner-container">
+        {imageLoaded ? (
+          <img
+            key={scanIndex}
+            src={images[scanIndex]}
+            alt="Scanning"
+            className="scanner-image"
+            onLoad={() => setImageLoaded(true)}
+            onError={(e) => {
+              // Hide broken image
+              setImageLoaded(false);
+            }}
+          />
+        ) : (
+          // If image is not loaded or fails, show the text
+          <div className="scanning-text">Scanning...</div>
+        )}
+      </div>
+    );
+  };
 
   const t = translations[currentLanguage] || translations['en'];
 
   return (
     <>
-    <header className="header">
-      <button 
-        onClick={toggleTheme} 
-        className="theme-toggle" 
-        aria-label="Toggle dark mode"
-      >
-        <FontAwesomeIcon icon={faMoon} />
-      </button>
-    </header>
+      <header className="header">
+        <button 
+          onClick={toggleTheme} 
+          className="theme-toggle" 
+          aria-label="Toggle dark mode"
+        >
+          <FontAwesomeIcon icon={faMoon} />
+        </button>
+      </header>
 
       <main>
-        {loading && <div className="spinner"></div>}
+        {/* Show spinner only if loading and no images */}
+        {loading && images.length === 0 && (
+          <div className="spinner"></div>
+        )}
+
+        {/* Show scanner only if loading and we have images */}
+        {loading && images.length > 0 && renderScanner()}
+
         {errorMessage && <div className="error">{errorMessage}</div>}
         
         {!loading && !errorMessage && viewState === 'start' && (
