@@ -1,3 +1,5 @@
+// app/api/exit/route.ts
+
 import { NextResponse } from 'next/server';
 import { readFileSync } from 'fs';
 import { join } from 'path';

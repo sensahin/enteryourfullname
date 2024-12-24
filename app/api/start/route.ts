@@ -1,3 +1,5 @@
+// app/api/start/route.ts
+
 import { NextResponse } from 'next/server';
 import { google_search, create_thread, run_assistant } from '@/lib/apiHelpers';
 

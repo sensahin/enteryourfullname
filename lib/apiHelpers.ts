@@ -1,3 +1,5 @@
+// lib/apiHelpers.ts
+
 import axios from 'axios';
 
 const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
