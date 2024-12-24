@@ -11,7 +11,7 @@ export async function POST(request: Request) {
     // 1) Normal "web" search
     const webSearch = await google_search(fullname, undefined, undefined, 10, "web");
     // 2) Image search
-    const imageSearch = await google_search(fullname, undefined, undefined, 10, "image");
+    const imageSearch = await google_search(fullname, undefined, undefined, 10, "image", "face");
 
     // Feed only the text portion to the assistant
     const backgroundText = webSearch.text;

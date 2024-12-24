@@ -35,7 +35,8 @@ export async function google_search(
   api_key = GOOGLE_API_KEY,
   cse_id = GOOGLE_CSE_ID,
   num = 10,
-  searchType: "web" | "image" = "web"
+  searchType: "web" | "image" = "web",
+  imgType?: "clipart" | "face" | "lineart" | "stock" | "photo" | "animated"
 ) {
   const search_url = "https://www.googleapis.com/customsearch/v1";
   const params: any = {
@@ -46,6 +47,9 @@ export async function google_search(
   };
   if (searchType === "image") {
     params.searchType = "image";
+    if (imgType) {
+        params.imgType = imgType;
+      }
   }
 
   const response = await axios.get(search_url, { params });

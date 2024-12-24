@@ -7,8 +7,8 @@ import { faMoon } from '@fortawesome/free-solid-svg-icons';
 
 type ResponseType = {
   type: 'question' | 'identify' | 'done' | 'exit';
-  question: string|null;
-  response: string|null;
+  question: string | null;
+  response: string | null;
   language: string;
   error?: string;
 };
@@ -28,7 +28,9 @@ type Translations = {
 export default function Page() {
   const [translations, setTranslations] = useState<Translations>({});
   const [currentLanguage, setCurrentLanguage] = useState('en');
-  const [viewState, setViewState] = useState<'start'|'question'|'identify'|'done'|'exit'>('start');
+  const [viewState, setViewState] = useState<
+    'start' | 'question' | 'identify' | 'done' | 'exit'
+  >('start');
   const [questionText, setQuestionText] = useState('');
   const [identifyText, setIdentifyText] = useState('');
   const [loading, setLoading] = useState(false);
@@ -36,7 +38,7 @@ export default function Page() {
   const [errorMessage, setErrorMessage] = useState('');
   const [theme, setTheme] = useState<'light' | 'dark'>('dark');
 
-  // Images from the search
+  // Images from the search (we display them while loading)
   const [images, setImages] = useState<string[]>([]);
   // Current index for the scanning effect
   const [scanIndex, setScanIndex] = useState(0);
@@ -76,16 +78,15 @@ export default function Page() {
     })();
   }, []);
 
-  // Scanning effect interval
+  // Scanning effect interval (carousel), only relevant if we have images
   useEffect(() => {
-    if (!loading || images.length === 0) return;
-
+    if (images.length === 0) return;
     const interval = setInterval(() => {
       setScanIndex((prev) => (prev + 1) % images.length);
     }, 1500);
 
     return () => clearInterval(interval);
-  }, [loading, images]);
+  }, [images]);
 
   function toggleTheme() {
     const newTheme = theme === 'dark' ? 'light' : 'dark';
@@ -112,6 +113,8 @@ export default function Page() {
     return serverErrorMessage;
   }
 
+  // =========== Handlers ===========
+
   async function handleStart(e: React.FormEvent) {
     e.preventDefault();
     setErrorMessage('');
@@ -119,8 +122,8 @@ export default function Page() {
     try {
       const res = await fetch('/api/start', {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ fullname })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fullname }),
       });
 
       if (!res.ok) {
@@ -154,7 +157,7 @@ export default function Page() {
       }
       localStorage.setItem('language', json.language);
 
-      // Store images
+      // Store images (we'll show them while loading next times)
       if (json.images && json.images.length > 0) {
         setImages(json.images);
       } else {
@@ -165,7 +168,9 @@ export default function Page() {
     } catch (error) {
       console.error('Error in handleStart:', error);
       setLoading(false);
-      setErrorMessage((error as Error).message || 'An error occurred while starting.');
+      setErrorMessage(
+        (error as Error).message || 'An error occurred while starting.'
+      );
     }
   }
 
@@ -186,11 +191,11 @@ export default function Page() {
 
       const res = await fetch('/api/answer', {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           action,
           thread_id,
-          questions_asked: questions_asked ? parseInt(questions_asked, 10) : 0
+          questions_asked: questions_asked ? parseInt(questions_asked, 10) : 0,
         }),
       });
 
@@ -218,11 +223,12 @@ export default function Page() {
         localStorage.setItem('language', json.language);
         setCurrentLanguage(json.language);
       }
-
     } catch (error) {
       console.error('Error in handleAction:', error);
       setLoading(false);
-      setErrorMessage((error as Error).message || 'An error occurred while processing action.');
+      setErrorMessage(
+        (error as Error).message || 'An error occurred while processing action.'
+      );
     }
   }
 
@@ -233,12 +239,12 @@ export default function Page() {
       const thread_id = localStorage.getItem('thread_id');
       const res = await fetch('/api/confirm', {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ 
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           confirm: translations[currentLanguage].yes.toLowerCase(),
           thread_id,
-          language: currentLanguage
-        })
+          language: currentLanguage,
+        }),
       });
 
       if (!res.ok) {
@@ -257,11 +263,12 @@ export default function Page() {
         localStorage.setItem('language', json.language);
         setCurrentLanguage(json.language);
       }
-
     } catch (error) {
       console.error('Error in handleConfirmYes:', error);
       setLoading(false);
-      setErrorMessage((error as Error).message || 'An error occurred during confirmation.');
+      setErrorMessage(
+        (error as Error).message || 'An error occurred during confirmation.'
+      );
     }
   }
 
@@ -272,12 +279,12 @@ export default function Page() {
       const thread_id = localStorage.getItem('thread_id');
       const res = await fetch('/api/confirm', {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ 
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           confirm: translations[currentLanguage].no.toLowerCase(),
           thread_id,
-          language: currentLanguage
-        })
+          language: currentLanguage,
+        }),
       });
 
       if (!res.ok) {
@@ -296,11 +303,12 @@ export default function Page() {
         localStorage.setItem('language', json.language);
         setCurrentLanguage(json.language);
       }
-
     } catch (error) {
       console.error('Error in handleConfirmNo:', error);
       setLoading(false);
-      setErrorMessage((error as Error).message || 'An error occurred during confirmation.');
+      setErrorMessage(
+        (error as Error).message || 'An error occurred during confirmation.'
+      );
     }
   }
 
@@ -309,7 +317,11 @@ export default function Page() {
     setLoading(true);
     try {
       const thread_id = localStorage.getItem('thread_id');
-      const res = await fetch(`/api/exit?thread_id=${encodeURIComponent(thread_id || '')}&language=${encodeURIComponent(currentLanguage)}`);
+      const res = await fetch(
+        `/api/exit?thread_id=${encodeURIComponent(
+          thread_id || ''
+        )}&language=${encodeURIComponent(currentLanguage)}`
+      );
       if (!res.ok) {
         const serverErrorMessage = await handleNonOkResponse(res);
         console.error('Error exiting:', serverErrorMessage);
@@ -323,7 +335,9 @@ export default function Page() {
     } catch (error) {
       console.error('Error in handleNoDone:', error);
       setLoading(false);
-      setErrorMessage((error as Error).message || 'An error occurred while exiting.');
+      setErrorMessage(
+        (error as Error).message || 'An error occurred while exiting.'
+      );
     }
   }
 
@@ -331,6 +345,8 @@ export default function Page() {
     // Redirect to root or do something else
     window.location.href = '/';
   }
+
+  // =========== Handle new server response ===========
 
   function handleResponse(response: ResponseType) {
     if (response.error) {
@@ -357,45 +373,36 @@ export default function Page() {
     }
   }
 
-  // We'll track whether the current image is loaded
-  // and display "Scanning..." if it's not loaded or fails
-  const [imageLoaded, setImageLoaded] = useState(true);
+  // =========== Rendering the scanning carousel ===========
 
-  // Function to render scanning effect
-  const renderScanner = () => {
-    if (!loading || images.length === 0) return null;
-
-    // Show "Scanning..." text if there's no valid image yet
+  function renderScanner() {
+    // Show the "scanning" effect with images
+    if (images.length === 0) {
+      // If no images, fallback to spinner
+      return <div className="spinner"></div>;
+    }
     return (
       <div className="scanner-container">
-        {imageLoaded ? (
-          <img
-            key={scanIndex}
-            src={images[scanIndex]}
-            alt="Scanning"
-            className="scanner-image"
-            onLoad={() => setImageLoaded(true)}
-            onError={(e) => {
-              // Hide broken image
-              setImageLoaded(false);
-            }}
-          />
-        ) : (
-          // If image is not loaded or fails, show the text
-          <div className="scanning-text">Scanning...</div>
-        )}
+        <img
+          key={scanIndex}
+          src={images[scanIndex]}
+          alt="Scanning"
+          className="scanner-image"
+        />
       </div>
     );
-  };
+  }
 
   const t = translations[currentLanguage] || translations['en'];
+
+  // =========== Return JSX ===========
 
   return (
     <>
       <header className="header">
-        <button 
-          onClick={toggleTheme} 
-          className="theme-toggle" 
+        <button
+          onClick={toggleTheme}
+          className="theme-toggle"
           aria-label="Toggle dark mode"
         >
           <FontAwesomeIcon icon={faMoon} />
@@ -403,73 +410,98 @@ export default function Page() {
       </header>
 
       <main>
-        {/* Show spinner only if loading and no images */}
-        {loading && images.length === 0 && (
-          <div className="spinner"></div>
-        )}
-
-        {/* Show scanner only if loading and we have images */}
-        {loading && images.length > 0 && renderScanner()}
-
         {errorMessage && <div className="error">{errorMessage}</div>}
-        
-        {!loading && !errorMessage && viewState === 'start' && (
-          <div className="card">
-            <form onSubmit={handleStart} className="start-form">
-              <div className="form__group field">
-                <input
-                  type="text"
-                  className="form__field"
-                  placeholder="Enter your full name"
-                  name="fullname"
-                  id="fullnameInput"
-                  value={fullname}
-                  onChange={(e) => setFullname(e.target.value)}
-                  required
-                />
-                <label htmlFor="fullnameInput" className="form__label">
-                  Enter your full name
-                </label>
+
+        {/**
+         * If we're "loading", show images (scanner) OR spinner if no images.
+         * Otherwise, show the normal UI (question, identify, done, exit).
+         */}
+
+        {loading ? (
+          renderScanner()
+        ) : (
+          <>
+            {/* START */}
+            {viewState === 'start' && (
+              <div className="card">
+                <form onSubmit={handleStart} className="start-form">
+                  <div className="form__group field">
+                    <input
+                      type="text"
+                      className="form__field"
+                      placeholder="Enter your full name"
+                      name="fullname"
+                      id="fullnameInput"
+                      value={fullname}
+                      onChange={(e) => setFullname(e.target.value)}
+                      required
+                    />
+                    <label htmlFor="fullnameInput" className="form__label">
+                      Enter your full name
+                    </label>
+                  </div>
+                </form>
               </div>
-            </form>
-          </div>
-        )}
+            )}
 
-        {!loading && !errorMessage && viewState === 'question' && (
-          <div className="card">
-            <p className="question-text">{questionText}</p>
-            <div className="button-group">
-              <button onClick={handleYes} className="primary-button">{t.yes}</button>
-              <button onClick={handleNo} className="secondary-button">{t.no}</button>
-            </div>
-          </div>
-        )}
+            {/* QUESTION */}
+            {viewState === 'question' && (
+              <div className="card">
+                <p className="question-text">{questionText}</p>
+                <div className="button-group">
+                  <button onClick={handleYes} className="primary-button">
+                    {t.yes}
+                  </button>
+                  <button onClick={handleNo} className="secondary-button">
+                    {t.no}
+                  </button>
+                </div>
+              </div>
+            )}
 
-        {!loading && !errorMessage && viewState === 'identify' && (
-          <div className="reveal-card">
-            <ReactMarkdown className="question-text">{identifyText}</ReactMarkdown>
-            <div className="button-group">
-              <button onClick={handleConfirmYes} className="primary-button">{t.yes}</button>
-              <button onClick={handleConfirmNo} className="secondary-button">{t.no}</button>
-            </div>
-          </div>
-        )}
+            {/* IDENTIFY */}
+            {viewState === 'identify' && (
+              <div className="reveal-card">
+                <ReactMarkdown className="question-text">
+                  {identifyText}
+                </ReactMarkdown>
+                <div className="button-group">
+                  <button onClick={handleConfirmYes} className="primary-button">
+                    {t.yes}
+                  </button>
+                  <button
+                    onClick={handleConfirmNo}
+                    className="secondary-button"
+                  >
+                    {t.no}
+                  </button>
+                </div>
+              </div>
+            )}
 
-        {!loading && !errorMessage && viewState === 'done' && (
-          <div className="card">
-            <h1>{t.done_prompt || 'One more?'}</h1>
-            <div className="button-group">
-              <button onClick={handleYesDone} className="primary-button">{t.yes}</button>
-              <button onClick={handleNoDone} className="secondary-button">{t.no}</button>
-            </div>
-          </div>
-        )}
+            {/* DONE */}
+            {viewState === 'done' && (
+              <div className="card">
+                <h1>{t.done_prompt || 'One more?'}</h1>
+                <div className="button-group">
+                  <button onClick={handleYesDone} className="primary-button">
+                    {t.yes}
+                  </button>
+                  <button onClick={handleNoDone} className="secondary-button">
+                    {t.no}
+                  </button>
+                </div>
+              </div>
+            )}
 
-        {!loading && !errorMessage && viewState === 'exit' && (
-          <div className="card">
-            <h1>{t.goodbye || 'Goodbye!'}</h1>
-            <p>{t.thanks || 'Thank you.'}</p>
-          </div>
+            {/* EXIT */}
+            {viewState === 'exit' && (
+              <div className="card">
+                <h1>{t.goodbye || 'Goodbye!'}</h1>
+                <p>{t.thanks || 'Thank you.'}</p>
+              </div>
+            )}
+          </>
         )}
       </main>
     </>
