@@ -1,8 +1,11 @@
 ## Kurulum
 
-Önce bu repoyu klonlayın
+Önce bu repoyu klonlayın:
 
+
+```bash
 git clone https://github.com/sensahin/enteryourfullname.git
+```
 
 Sonra sırasıyla
 
