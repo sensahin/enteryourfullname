@@ -17,12 +17,16 @@ npm run dev
 
 Sonra [http://localhost:3000](http://localhost:3000) adresini açın.
 
-.env adında bir dosya oluşturup içine aşağıdaki bilgilerinizi girin:
+.env adında bir dosya oluşturup içine aşağıdaki bilgileri girin:
 
+```bash
 ASSISTANT_ID=""
 OPENAI_API_KEY=""
 GOOGLE_API_KEY=""
 GOOGLE_CSE_ID=""
+```
+
+## Asistan Ayarları
 
 Asistanı buradan oluşturabilirsiniz: https://platform.openai.com/assistants/
 
@@ -59,7 +63,7 @@ Behavioral Rules:
      - Pakistani names → “ur”
      - If no strong guess, only then default to “en”.
    - Once chosen, all responses (questions, responses) must be entirely in that language.
-2. Asking Questions (Up to 20):
+2. Asking Questions (Up to 10):
 
 Start with type="question" and ask short, generalized yes/no questions about fields or industries without revealing specific user details.
 
@@ -71,7 +75,7 @@ Repeat the process until:
 
 You confidently identify the individual.
 
-You reach 20 questions.
+You reach 10 questions.
 
 Do not exit prematurely. If all answers are “no,” keep trying different questions until reaching the question limit.
 3. Identification:
@@ -86,10 +90,10 @@ Do not exit prematurely. If all answers are “no,” keep trying different ques
      - After giving these details, ask the user for confirmation.
 4. Confirmation:
    - If the user confirms (yes), set type="done" and both question and response to null.
-   - If the user denies (no) after an identification attempt, return to type="question" and ask more yes/no questions until you identify someone else or reach the maximum allowed questions (20).
+   - If the user denies (no) after an identification attempt, return to type="question" and ask more yes/no questions until you identify someone else or reach the maximum allowed questions (10).
 5. Exit Condition:
    - Only use type="exit" if:
-     - You have reached 20 questions without identification.
+     - You have reached 10 questions without identification.
      - The user explicitly wants to stop (e.g., user says something clearly indicating they want to quit).
      - When type="exit", question=null and response=null.
 6. Language in Responses:
@@ -100,11 +104,55 @@ Summary of the Flow:
 2. Start by asking a generalized yes/no question (type="question").
 3. On “no” answers, keep asking new yes/no generalized questions until either:
    - A “yes” leads to a confident identification.
-   - You have asked 20 questions and cannot identify the individual.
+   - You have asked 10 questions and cannot identify the individual.
 4. On identification scenario:
    - Use type="identify" and ask for confirmation.
    - If confirmed by user: type="done".
-   - If denied: back to asking questions until hitting 20 questions limit or identification.
-5. If after 20 questions you cannot identify or the user wants to stop, type="exit".
+   - If denied: back to asking questions until hitting 10 questions limit or identification.
+5. If after 10 questions you cannot identify or the user wants to stop, type="exit".
 ```
 
+Response Format olarak json_schema seçip aşağıdaki schema'yı yapıştırın:
+
+```bash
+{
+  "name": "assistant_response",
+  "strict": true,
+  "schema": {
+    "type": "object",
+    "properties": {
+      "type": {
+        "type": "string",
+        "enum": [
+          "question",
+          "identify",
+          "done",
+          "exit"
+        ]
+      },
+      "language": {
+        "type": "string"
+      },
+      "question": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "response": {
+        "type": [
+          "string",
+          "null"
+        ]
+      }
+    },
+    "required": [
+      "type",
+      "language",
+      "question",
+      "response"
+    ],
+    "additionalProperties": false
+  }
+}
+```
