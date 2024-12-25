@@ -26,7 +26,9 @@ GOOGLE_API_KEY=""
 GOOGLE_CSE_ID=""
 ```
 
-## Asistan Ayarları
+## OpenAI Ayarları
+
+Önce OpenAI üzerinde api key oluşturun: https://platform.openai.com/settings/
 
 Asistanı buradan oluşturabilirsiniz: https://platform.openai.com/assistants/
 
@@ -156,3 +158,20 @@ Response Format olarak json_schema seçip aşağıdaki schema'yı yapıştırın
   }
 }
 ```
+
+## Google Ayarları
+
+Google Cloud üzerinde API anahtarınız varsa, onu kullanabilirsiniz. Sadece Google Cloud Console'da "Custom Search API"yi etkinleştirmeniz yeterli.
+
+Api key'iniz yoksa oluşturmanız lazım. O kısmı burada anlatmayacam. Google'dan bulabilirsiniz.
+
+Api key oluşturduktan sonra .env dosyası içindeki yere yapıştırın.
+
+Şimdi CSE yani özelleştirilmiş arama motoru oluşturmanız lazım.
+
+Buradan oluşturabilirsiniz: https://programmablesearchengine.google.com/
+
+Arama motorunuza bir isim verin. "Tüm webi ara" seçeneğini ve "Görüntü ara" seçeneğini seçin. Oluştur butonuna tıklayın.
+Oluşturulduktan sonra, yeni arama motorunuzun ayarlarına gitmek için Kontrol Paneline tıklayın.
+
+Temel Bilgiler sekmesi altında, CSE ID bulabilirsiniz. Bu ID'yi kopyalayıp .env dosyası içine yapıştırın.
